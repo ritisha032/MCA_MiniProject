@@ -1,0 +1,64 @@
+/* App.css */
+.container {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.forms-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+}
+
+.signin-signup {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}
+
+.sign-in-form,
+.sign-up-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+}
+
+/* Add the rest of your styles for sign-in and sign-up forms here */
+
+.panels-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-around;
+  text-align: center;
+  z-index: 1;
+}
+
+.left-panel {
+  pointer-events: all;
+}
+
+.right-panel {
+  pointer-events: none;
+}
+
+/* Add the rest of your styles for panels here */
