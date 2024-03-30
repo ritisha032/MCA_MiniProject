@@ -54,7 +54,7 @@ const SignupPage = () => {
   return (
     <div className="container">
       <h2>Signup Page</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='form-container'>
         <label>
           Name:
           <input
@@ -138,7 +138,7 @@ const SignupPage = () => {
       {errorMessage && <p className="error-message">{errorMessage}</p>}
 
       <p>
-        Already signed up? <a href="/">Sign in</a>
+        Already signed up? <a href="/login">Sign in</a>
       </p>
     </div>
   );

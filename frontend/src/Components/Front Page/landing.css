@@ -1,0 +1,65 @@
+/* landing.css */
+/* landing.css */
+.background-image {
+  background-image: url('pexels-ella-olsson-1640774.jpg'); /* Replace 'path_to_your_image.jpg' with the actual path to your image */
+  background-size: cover; /* Cover the entire container */
+  background-position: center; /* Center the background image */
+  position: fixed; /* Ensure that the background image remains fixed */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0; /* Initially set opacity to 0 */
+  transition: opacity 2s ease; /* Apply transition for opacity */
+
+  /* z-index: -1; */ /* Remove or adjust z-index */
+}
+
+.background-image.fade-in {
+  opacity: 1; /* Change opacity to 1 to fade in the image */
+}
+
+
+.welcome-text {
+  font-size: 4em; /* Adjust font size as needed */
+  font-weight: bold;
+  color: blueviolet;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: fadeIn 2s ease; /* Apply fadeIn animation */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.button-container {
+  text-align: right;
+  position: absolute;
+  display: inline-flex;
+  top: 10px;
+  right: 10px;
+  gap: 10px;
+}
+
+/* landing.css */
+.button {
+  background-color: blue;
+  color: white;
+  border: none;
+  padding: 10px 20px; /* Increase padding to make the button bigger */
+  border-radius: 10px; /* Increase border-radius for rounded corners */
+  text-decoration: none;
+  font-size: 1.2em; /* Increase font size */
+}
+
+.button:hover {
+  background-color: darkblue;
+}

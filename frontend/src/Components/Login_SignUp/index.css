@@ -1,12 +1,19 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
+    background-image: url('burger.jpg'); /* Replace 'path_to_your_image.jpg' with the actual path to your image */
+  background-size: cover; /* Cover the entire background */
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    transition: opacity 1s ease; 
+  }
+
+  .background-image.fade-out {
+    opacity: 0; /* Change opacity to 0 to fade out */
   }
   
   form {
@@ -56,6 +63,11 @@ body {
   }
 
   /* LoginPage.css */
+  label{
+    display: block;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
 
 .login-container {
   max-width: 400px;
@@ -64,8 +76,18 @@ body {
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.8); 
 }
 
+.container{
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  padding: 10px;
+ 
+}
+.form-container{
+  background-color: rgba(255, 255, 255, 0.8); 
+}
 label {
   display: block;
   margin-bottom: 10px;
@@ -108,4 +130,18 @@ a:hover {
 
 .error-message {
   color: red;
+}
+
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  /* background-color: #333; Background color for the footer */
+  background-color: rgba(255, 255, 255, 0.8); 
+
+  color: black; /* Text color */
+  padding: 10px 0; /* Padding for top and bottom */
+  text-align: center; /* Align text to center */
 }
