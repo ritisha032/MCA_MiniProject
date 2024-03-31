@@ -1,0 +1,8 @@
+footer {
+    margin-top: 20px; /* Add some space above the footer */
+    padding: 10px; /* Add padding to the footer content */
+    text-align: center; /* Center-align the text */
+    font-size: 12px; /* Adjust font size as needed */
+    color: #777; /* Adjust text color */
+    border-top: 1px solid #ccc; /* Add a border on top for separation */
+  }
