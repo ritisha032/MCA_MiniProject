@@ -4,7 +4,7 @@ import Footer from '../Footer/Footer';
 
 const LoginPage = ({ onLogin }) => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ username: '', password: '', role: '' });
+  const [formData, setFormData] = useState({ username: '', password: '' });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -18,15 +18,13 @@ const LoginPage = ({ onLogin }) => {
       password: 'admin123',
     };
 
-    if (formData.username && formData.password && formData.role) {
-      if (formData.role === 'Admin' && formData.username === adminCredentials.username && formData.password === adminCredentials.password) {
-        onLogin(formData.role);
+    if (formData.username && formData.password) {
+      if (formData.username === adminCredentials.username && formData.password === adminCredentials.password) {
+        onLogin('Admin');
         navigate('/admin'); // Redirect to admin page
-      } else if (formData.role === 'Student') {
-        onLogin(formData.role);
-        navigate('/student'); // Redirect to student page
       } else {
-        alert('Invalid credentials. Please check your username, password, and role.');
+        onLogin('Student');
+        navigate('/student'); // Redirect to student page
       }
     } else {
       alert('Invalid credentials. Please fill out all fields.');
@@ -44,15 +42,6 @@ const LoginPage = ({ onLogin }) => {
       <label>
         Password:
         <input type="password" name="password" onChange={handleInputChange} />
-      </label>
-
-      <label>
-        Role:
-        <select name="role" onChange={handleInputChange}>
-          <option value="" disabled>Select role</option>
-          <option value="Admin">Admin</option>
-          <option value="Student">Student</option>
-        </select>
       </label>
 
       <button onClick={handleLogin}>Login</button>
