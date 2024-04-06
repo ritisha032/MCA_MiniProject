@@ -1,56 +1,53 @@
 import React, { useState } from 'react';
 import Footer from '../Footer/Footer';
+import { toast } from "react-toastify";
+import axios from 'axios'; // Import axios here
+import { useNavigate } from "react-router-dom";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    gender: '',
-    hostel: '',
-    file: null,
+    password: '',
   });
-  const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const navigate=useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, file: e.target.files[0] });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if all fields are filled
-    if (formData.name && formData.email && formData.gender && formData.hostel && formData.file) {
-      // Perform form submission or validation logic here
-      console.log(formData);
+    try {
+      // Make a POST request to your backend API
+      const response = await axios.post(
+        `${process.env.REACT_APP_API}/api/user/register`,
+        formData// Pass formData directly
+      );
 
-      // Show success message
-      setSuccessMessage('You have successfully signed up!');
-
-      // Reset form data if needed
-      setFormData({
-        name: '',
-        email: '',
-        gender: '',
-        hostel: '',
-        file: null,
-      });
-
-      // Clear any previous error message
-      setErrorMessage('');
-    } else {
-      // Show error message
-      setErrorMessage('Please fill out all fields.');
-
-      // Clear any previous success message
-      setSuccessMessage('');
+     
+      if(response.data.success)
+      {
+          toast.success(response.data.message);
+          navigate("/login");
+      }
+      else
+      {
+        toast.error(response.data.message);
+      }
+       
+      }
+     catch (error) {
+      // If there's an error, display a toast with the error message
+      
+        toast.error('Something went wrong. Please try again later.');
+      
     }
   };
+  
 
   return (
     <div className="container">
@@ -81,61 +78,20 @@ const SignupPage = () => {
         </label>
 
         <label>
-          Gender:
-          <select
-            name="gender"
-            value={formData.gender}
+          Password:
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
             onChange={handleInputChange}
             required
-          >
-            <option value="" disabled>Select gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </label>
-
-        {formData.gender && (
-          <label>
-            Hostel:
-            <select
-              name="hostel"
-              value={formData.hostel}
-              onChange={handleInputChange}
-              required
-            >
-              <option value="" disabled>Select hostel</option>
-              {formData.gender === 'male' ? (
-                <>
-                  <option value="Raman_Hostel">Raman Hostel</option>
-                  <option value="Tilak_Hostel">Tilak Hostel</option>
-                  <option value="Tagore_Hostel">Tagore Hostel</option>
-                  <option value="Tandon_Hostel">Tandon Hostel</option>
-                  <option value="Malviya_Hostel">Malviya Hostel</option>
-                </>
-              ) : (
-                <>
-                  <option value="PG_Hostel">PG hostel</option>
-                  <option value="hostelD">Hostel D</option>
-                </>
-              )}
-            </select>
-          </label>
-        )}
-
-        <label>
-          Upload College ID-card:
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            required
+            placeholder='Enter your password'
           />
         </label>
 
         <button type="submit">Submit</button>
       </form>
 
-      {successMessage && <p className="success-message">{successMessage}</p>}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
 
       <p>

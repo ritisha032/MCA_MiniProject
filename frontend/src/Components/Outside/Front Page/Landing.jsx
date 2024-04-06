@@ -16,7 +16,7 @@ const Landing = () => {
     <div className="background-image">
       <div className="welcome-text">Welcome</div>
       <div className="image-container">
-        <img src={image} alt="Your Image" className="landing-image" />
+        {/* <img src={image} alt="Your Image" className="landing-image" /> */}
       </div>
       <div className="button-container">
         <Link to="/contact"><button className="button">Contact</button></Link>

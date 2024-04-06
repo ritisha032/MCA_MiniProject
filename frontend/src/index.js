@@ -2,14 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-
-import Section from './Routes/Inner_section';
-import Outer_section from './Routes/Outer_section';
+import App from './App';
+import { ToastContainer } from "react-toastify";
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    
-  <Outer_section/>
-  </React.StrictMode>
+  <BrowserRouter>
+    <App/>
+    <ToastContainer/>
+  </BrowserRouter>
+
 );
