@@ -1,42 +1,62 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import Footer from '../Footer/Footer';
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import Footer from "../Footer/Footer";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
+import { useAuth } from "../../../context/auth";
 
-const LoginPage = ({ onLogin }) => {
+const LoginPage = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ username: '', password: '' });
+  const location = useLocation();
+  const [auth, setAuth] = useAuth();
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleLogin = () => {
-    // Replace this with your actual authentication logic
-    const adminCredentials = {
-      username: 'admin',
-      password: 'admin123',
-    };
-
-    if (formData.username && formData.password) {
-      if (formData.username === adminCredentials.username && formData.password === adminCredentials.password) {
-        onLogin('Admin');
-        navigate('/admin'); // Redirect to admin page
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    console.log(formData);
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_API}/api/user/login`,
+        formData
+      );
+      if (res && res.data.success) {
+        toast.success(res.data.message);
+        setAuth({
+          ...auth,
+          user: res.data.user,
+          token: res.data.token,
+        });
+        console.log(res.data.user.isAdmin);
+        localStorage.setItem("auth", JSON.stringify(res.data));
+        if (!(res.data.user.isAdmin)) {
+          navigate('/student-dashboard');
+        } else if (res.data.user.isAdmin) {
+          navigate('/admin-dashboard');
+        } else {
+          // Handle other roles
+          navigate('/');
+        }
       } else {
-        onLogin('Student');
-        navigate('/student'); // Redirect to student page
+        toast.warning(res.data.message);
       }
-    } else {
-      alert('Invalid credentials. Please fill out all fields.');
+    } catch (error) {
+      console.log(error);
+      toast.warning("Something went wrong");
     }
   };
 
   return (
-    <div className='login-container'>
+    <div className="login-container">
       <h2>Login Page</h2>
       <label>
-        Username:
-        <input type="text" name="username" onChange={handleInputChange} />
+        Email:
+        <input type="text" name="email" onChange={handleInputChange} />
       </label>
 
       <label>
@@ -54,7 +74,7 @@ const LoginPage = ({ onLogin }) => {
         Don't have an account? <Link to="/signup">Sign up</Link>
       </p>
 
-      <Footer/>
+      <Footer />
     </div>
   );
 };

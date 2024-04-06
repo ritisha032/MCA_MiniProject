@@ -8,10 +8,12 @@ import './style.css'
 import Landing from '../Components/Outside/Front Page/Landing';
 import Contact from '../Components/Outside/Contact/Contact';
 import Reset from '../Components/Outside/ResetPassword/Reset';
-
+import {useNavigate} from "react-router-dom"
+import {useAuth} from "../context/auth"
 const Routers = () => {
   const [userRole, setUserRole] = useState('');
-
+  const navigate=useNavigate();
+  const [auth] = useAuth();
   const handleLogin = (role) => {
     setUserRole(role);
   };
@@ -28,6 +30,16 @@ const Routers = () => {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/forgot-password" element={<Reset/>}/>
+
+         {/* Protected Routes */}
+         {auth.user ? (
+          auth.user.role === 'admin' ? (
+            <Route path="/admin" element={<AdminPage />} />
+          ) : (
+            <Route path="/student" element={<StudentPage />} />
+          )):(navigate("/login"))}
+    
+
       </Routes>
     
     </>

@@ -61,33 +61,51 @@ const registerUser = async (req, res) => {
   };
   
 
-const authenticateUser = asyncHandler(async (req, res) => {
-    const { email, password } = req.body;
+const authenticateUser = async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      console.log(req.body);
   
-    if (!email || !password) {
-      res.status(400);
-      throw new Error("Invalid request params for user login");
-    }
+      if (!email || !password) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid request params for user login",
+        });
+      }
   
-    // Find a user with the entered email
-    const user = await UserModel.findOne({ email });
-    // Check if a user with entered email exists and check if entered password
-    // matches the stored user password
-    if (user && (await user.matchPasswords(password))) {
-      res.status(200).json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        isAdmin : user.isAdmin,
-        token: generateToken(user._id),
-        /* Expire session after 15 days */
-        expiryTime: Date.now() + 15 * 24 * 60 * 60 * 1000,
+      // Find a user with the entered email
+      const user = await UserModel.findOne({ email });
+  
+      // Check if a user with entered email exists and check if entered password
+      // matches the stored user password
+      if (user && await user.matchPasswords(password)) {
+        res.status(200).json({
+          success: true,
+          message: "Logged in successfully",
+          user: {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
+          },
+          token: generateToken(user._id),
+          expiryTime: Date.now() + 15 * 24 * 60 * 60 * 1000, // Expire session after 15 days
+        });
+      } else {
+        return res.status(401).json({
+          success: false,
+          message: "Invalid Email or Password",
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({
+        success: false,
+        message: "User cannot be logged in",
       });
-    } else {
-      res.status(401);
-      throw new Error("Invalid Email or Password");
     }
-});
+};
+  
 
 const requestPasswordReset = asyncHandler(async(req,res)=>{
   const {email} = req.body;
