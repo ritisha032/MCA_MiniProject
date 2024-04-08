@@ -11,7 +11,7 @@ const LoginPage = () => {
   const location = useLocation();
   const [auth, setAuth] = useAuth();
   const [formData, setFormData] = useState({ email: "", password: "" });
-
+  console.log("user from login page debug : "+auth.user);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -22,7 +22,7 @@ const LoginPage = () => {
     console.log(formData);
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API}/api/user/login`,
+        'http://localhost:5001/api/user/login',
         formData
       );
       if (res && res.data.success) {

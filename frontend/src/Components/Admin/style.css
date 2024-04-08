@@ -1,0 +1,29 @@
+.Nav-bar {
+  width: 100%; /* Cover whole width */
+  /* background-color: #f8f9fa; Navbar background color */
+  /* padding: 1rem; Padding for spacing */
+  border-bottom: 1px solid #ccc; /* Border at the bottom */
+  background-color: rgb(204, 216, 225);
+}
+
+.Component-body {
+  display: flex; /* Use flexbox for layout */
+  width: 100%; /* Cover whole width */
+  height: calc(100vh - 4rem); /* Take up remaining height after subtracting navbar height */
+}
+
+.component {
+  margin: 0;
+  padding: 0;
+  width: 50%; /* Occupy half of the space */
+  max-width: 300px; /* Set maximum width for the component box */
+  background-color:rgb(75, 97, 240); /* Background color for component */
+  /* padding: 1rem; Padding for spacing */
+  border-right: 1px solid #ccc; /* Border on the right */
+}
+
+.Out-put-box {
+  flex: 1; /* Occupy remaining space */
+  background-color: #edebeb; /* Background color for output */
+  /* padding: 1rem; Padding for spacing */
+}

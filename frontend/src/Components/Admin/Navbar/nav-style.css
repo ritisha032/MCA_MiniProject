@@ -1,0 +1,31 @@
+
+.navbar {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-dropdown {
+    position: relative;
+    margin-right: 40px;
+  }
+  
+  .profile-dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    top: calc(100% + 5px); /* Position the dropdown below the profile icon */
+    right: 0; /* Position the dropdown on the right */
+    background-color: #f9f9f9;
+    min-width: 100px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+  
+  .profile-dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .profile-dropdown:hover .profile-icon.dark {
+    color: #555; /* Dark color for the icon when hovered */
+  }
+  

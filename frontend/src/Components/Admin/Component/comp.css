@@ -1,0 +1,19 @@
+.comp-onent {
+    /* display: flex; */
+    /* border: 2px solid gray; */
+    margin: 5px;
+    background-color: #3498db; /* Blue background color */
+    border-radius: 5px;
+    text-align: center;
+    color: #fff; /* White text color */
+  }
+  
+  .comp-body {
+    height: 100%;
+    width: 100%;
+    /* border: 2px solid violet; */
+  }
+
+  .comp-h1{
+    color: black;
+  }
