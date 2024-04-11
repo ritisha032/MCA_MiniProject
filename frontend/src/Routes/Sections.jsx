@@ -14,6 +14,7 @@ import { useAuth } from "../context/auth";
 import AdminPage from "../Components/Outside/Login_SignUp/AdminPage";
 import StudentPage from "../Components/Outside/Login_SignUp/StudentPage";
 import MessMenu from "../Components/MessMenu";
+import UpdateMenu from "../Components/UpdateMenu";
 const Routers = () => {
   const [userRole, setUserRole] = useState("");
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ const Routers = () => {
         <Route path="/dashboard" element={<AdminRoute />}>
           <Route path="admin" element={<AdminDashboard/>}></Route>
           <Route path="admin/messmenu" element={<MessMenu/>} /> {/* Corrected closing angle bracket */}
+          <Route path="admin/changemenu" element={<UpdateMenu/>}/>
         </Route>
          
        
