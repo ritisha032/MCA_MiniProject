@@ -7,6 +7,7 @@ import Output from './Output/Output'
 const AdminDashboard = () => {
   return (
     <>
+        <p> Hello everyone</p>
         <div className='Nav-bar'>
             <Navbar/>
         </div> 
