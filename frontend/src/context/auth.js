@@ -9,6 +9,16 @@ const AuthProvider= ({children}) =>{
         token:""
     });
 
+    const logout = () => {
+      // Clear user details and token from local storage
+      localStorage.removeItem("auth");
+      // Reset auth state
+      setAuth({
+        user: null,
+        token: ""
+      });
+    };
+
     //refresh hone ke baad bi rhega issee
     //set headers///if auth exists then get token
     axios.defaults.headers.common["Authorization"] = auth?.token;
