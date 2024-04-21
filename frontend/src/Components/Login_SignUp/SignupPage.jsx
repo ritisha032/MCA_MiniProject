@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Footer from '../Footer/Footer';
+import Footer from '../Outside/Footer/Footer';
 import { toast } from "react-toastify";
 import axios from 'axios'; // Import axios here
 import { useNavigate } from "react-router-dom";

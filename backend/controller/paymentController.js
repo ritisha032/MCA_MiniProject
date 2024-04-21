@@ -12,6 +12,7 @@ const razorpay = new Razorpay({key_id : process.env.RAZORPAY_ID_KEY, key_secret:
 
 const initiatePayment = async(req,res)=>{
     const {selected,amount} = req.body;
+    console.log("selected= ",selected,"amount= ",amount);
 
     const order = await razorpay.orders.create({
         amount : amount*100,
@@ -19,6 +20,7 @@ const initiatePayment = async(req,res)=>{
     });
 
     const pay = await PaymentModel.create({orderId : order.id, selected});
+    console.log("order= ",order);
     res.send(order);
 
 }
@@ -26,6 +28,7 @@ const initiatePayment = async(req,res)=>{
 const paymentStatus = async(req,res)=>{
 
     const {razorpay_order_id, razorpay_payment_id, razorpay_signature} = req.body;
+    console.log("payment status ki body",req.body);
     const pay = validatePaymentVerification({order_id:razorpay_order_id, payment_id:razorpay_payment_id}, razorpay_signature, process.env.RAZORPAY_SECRET_KEY);
     if(pay){
         const order = await PaymentModel.findOne({orderId : razorpay_order_id});

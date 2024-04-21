@@ -4,7 +4,7 @@ const path = require("path");
 import dotenv from 'dotenv';
 dotenv.config();
 
-require("dotenv").config({ path: path.resolve(__dirname, "../src/.env") });
+
 
 const payment = async(req,res) => {
     const { totalCost, selectedItems } = req.body;

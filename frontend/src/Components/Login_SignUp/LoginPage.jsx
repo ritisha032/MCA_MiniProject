@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import Footer from "../Footer/Footer";
+import Footer from "../Outside/Footer/Footer";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import { useAuth } from "../../../context/auth";
+import { useAuth } from "../../context/auth";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -25,6 +25,7 @@ const LoginPage = () => {
         `${process.env.REACT_APP_API}/api/user/login`,
         formData
       );
+      console.log("res= ",res.data.token);
       if (res && res.data.success) {
         toast.success(res.data.message);
         setAuth({

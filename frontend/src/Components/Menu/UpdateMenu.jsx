@@ -7,7 +7,7 @@ const UpdateMenu = () => {
   useEffect(() => {
     const fetchMenuData = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/api/user/getmenu');
+        const response = await axios.get(`${process.env.REACT_APP_API}/api/user/getmenu`);
         const sortedMenuData = response.data.sort((a, b) => {
           const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
           return days.indexOf(a.day) - days.indexOf(b.day);

@@ -4,6 +4,7 @@ import { couponPurchase, couponValidity } from "../controller/couponController.j
 import { getCouponData, getMealData, getWeekMenu } from "../controller/dataController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import { initiatePayment, paymentStatus } from "../controller/paymentController.js";
+import { adminCheck } from "../middleware/authMiddleware.js";
 
 
 const router = Router();
@@ -20,4 +21,12 @@ router.post("/validCoupon", protect, couponValidity);
 
 router.post("/initiatePayment",protect, initiatePayment);
 router.post("/paymentStatus", protect, paymentStatus);
+
+router.get("/admin-auth",protect,adminCheck,(req,res)=>{
+    res.status(200).send({ok:true});
+});
+
+router.get("/user-auth",protect,(req,res)=>{
+    res.status(200).send({ok:true});
+});
 export default router;

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
-import { useAuth } from '../../../context/auth';
+import { useAuth } from '../../context/auth';
+import dotenv from 'dotenv';
+dotenv().config;
 
 const MessMenuPage = () => {
     const [menuData, setMenuData] = useState([]);
