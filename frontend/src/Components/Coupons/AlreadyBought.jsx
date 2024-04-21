@@ -11,7 +11,7 @@ export default function AlreadyBought() {
         <div style={{ maxWidth: 300, maxHeight: 260, margin: 'auto', marginBottom: '3rem' }}>
           <img src="/assets/illustrations/illustration_payment.png" alt="Illustration" style={{ maxWidth: '100%', height: 'auto' }} />
         </div>
-        <a href="/mycoupon" style={{ textDecoration: 'none', color: 'white' }}>
+        <a href="/dashboard/student/mycoupons" style={{ textDecoration: 'none', color: 'white' }}>
           <button style={{ padding: '0.75rem 1.5rem', backgroundColor: 'blue', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem' }}>
             Go to My Coupon
           </button>
