@@ -3,6 +3,7 @@ import Footer from '../Outside/Footer/Footer';
 import { toast } from "react-toastify";
 import axios from 'axios'; // Import axios here
 import { useNavigate } from "react-router-dom";
+import './index.css'
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -50,54 +51,59 @@ const SignupPage = () => {
   
 
   return (
-    <div className="container">
-      <h2>Signup Page</h2>
-      <form onSubmit={handleSubmit} className='form-container'>
-        <label>
-          Name:
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleInputChange}
-            required
-            placeholder='Enter your name'
-          />
-        </label>
+    <div className='wholepage'>
 
-        <label>
-          Email:
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            required
-            placeholder='Enter your college email'
-          />
-        </label>
+        <div className="signup-container">
+          {/* <h2 style={{color:'white ',fontSize:'40px'}}>Signup Page</h2> */}
+          <form onSubmit={handleSubmit} className='form-container'>
+            <h2>Sign Up</h2>
+            <label>
+              Name:
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                required
+                placeholder='Enter your name'
+              />
+            </label>
 
-        <label>
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-            required
-            placeholder='Enter your password'
-          />
-        </label>
+            <label>
+              Email:
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+                placeholder='Enter your college email'
+              />
+            </label>
 
-        <button type="submit">Submit</button>
-      </form>
+            <label>
+              Password:
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                required
+                placeholder='Enter your password'
+              />
+            </label>
 
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+            <button type="submit">Submit</button>
+            <p>
+            Already signed up? <a href="/login">Sign in</a>
+          </p>
+          </form>
 
-      <p>
-        Already signed up? <a href="/login">Sign in</a>
-      </p>
-      <Footer/>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+
+          
+          <Footer/>
+        </div>
     </div>
   );
 };

@@ -1,11 +1,11 @@
 import React from 'react';
-import { useAuth } from '../../context/auth'; // Update the path
+import { useAuth } from '../../../../context/auth'; // Update the path
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 const AdminDashboard = () => {
- 
+
   const [auth, setAuth] = useAuth();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const handleLogout = () => {
     // Clear user details and token from local storage
     localStorage.removeItem("auth");

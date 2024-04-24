@@ -1,16 +1,17 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    background-image: url('burger.jpg'); /* Replace 'path_to_your_image.jpg' with the actual path to your image */
-  background-size: cover; /* Cover the entire background */
-    margin: 0;
-    padding: 0;
+    background-image: url('burger.jpg'); 
+    /* Replace 'path_to_your_image.jpg' with the actual path to your image */
+  background-size: cover; 
+    margin: 0px;
+    padding: 0px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; 
     height: 100vh;
     transition: opacity 1s ease; 
-  }
+  } 
 
   .background-image.fade-out {
     opacity: 0; /* Change opacity to 0 to fade out */

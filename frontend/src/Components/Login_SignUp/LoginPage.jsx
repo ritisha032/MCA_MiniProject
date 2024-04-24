@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../../context/auth";
+import { Container } from "@mui/material";
+import './index.css'
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -53,6 +55,7 @@ const LoginPage = () => {
   };
 
   return (
+    <div className="wholepage">
     <div className="login-container">
       <h2>Login Page</h2>
       <label>
@@ -76,6 +79,7 @@ const LoginPage = () => {
       </p>
 
       <Footer />
+    </div>
     </div>
   );
 };
