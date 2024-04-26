@@ -20,8 +20,9 @@ export const protect = async (req, res, next) => {
     //verify the token
     try 
     {
+      console.log("token is ",token);
       const decode = jwt.verify(token, process.env.JWT_SECRET);
-      console.log(decode);
+      console.log("decode= ",decode);
       req.user = decode;
     } catch (err) {
       //verification - issue

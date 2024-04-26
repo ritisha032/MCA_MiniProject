@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerUser, authenticateUser, requestPasswordReset, resetPassword } from "../controller/userController.js";
+import { registerUser, authenticateUser, requestPasswordReset, resetPassword, addComplaint } from "../controller/userController.js";
 import { couponPurchase, couponValidity } from "../controller/couponController.js";
 import { getCouponData, getMealData, getWeekMenu } from "../controller/dataController.js";
 import { protect } from "../middleware/authMiddleware.js";
@@ -21,6 +21,7 @@ router.post("/validCoupon", protect, couponValidity);
 
 router.post("/initiatePayment",protect, initiatePayment);
 router.post("/paymentStatus", protect, paymentStatus);
+router.post("/complaint",protect,addComplaint);
 
 router.get("/admin-auth",protect,adminCheck,(req,res)=>{
     res.status(200).send({ok:true});

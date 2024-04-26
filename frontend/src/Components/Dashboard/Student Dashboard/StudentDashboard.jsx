@@ -15,6 +15,7 @@ import FeedbackIcon from '@mui/icons-material/Feedback';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { toast } from "react-toastify";
 import { useAuth } from "../../../context/auth";
 
 function StudentDashboard() {
@@ -29,6 +30,7 @@ function StudentDashboard() {
             user: null,
             token: ""
           });
+        toast.success("LogOut Successful")
         navigate('/login'); // Navigate to the login page
     };
 

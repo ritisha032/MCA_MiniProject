@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Alert from 'react-bootstrap/Alert';
-
+import axios from 'axios'; // Import Axios
 
 function Complaint() {
     // Define state variables for form fields
@@ -13,31 +13,47 @@ function Complaint() {
     const [complaintText, setComplaintText] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
 
-
     // Handle form submission
-    const handleFormSubmit = (event) => {
+    const handleFormSubmit = async (event) => {
         event.preventDefault(); // Prevent default form submission
 
-        // Perform form submission logic here
-        // For example, you could send the form data to a server
-        setIsSubmitted(true);
+        // Prepare form data
+        const formData = {
+            name: name,
+            roomNumber: roomNumber,
+            complaintType: complaintType,
+            complaintText: complaintText
+        };
 
-        // Reset form fields after submission (optional)
-        setName('');
-        setRoomNumber('');
-        setComplaintType('');
-        setComplaintText('');
+        try {
+            // Make Axios POST request to API endpoint
+            const response=await axios.post(`${process.env.REACT_APP_API}/api/user/complaint`, formData);
+            
+            console.log("response= ",response);
+            // If successful, set submission state to true
+            setIsSubmitted(true);
+
+            // Reset form fields after successful submission (optional)
+            setName('');
+            setRoomNumber('');
+            setComplaintType('');
+            setComplaintText('');
+        } catch (error) {
+            // Handle error, show error message, etc.
+            console.error('Error submitting complaint:', error);
+        }
     };
 
     return (
         <Container>
             <h3>Complaint Box</h3>
             {isSubmitted && (
-            <Alert variant="success" onClose={() => setIsSubmitted(false)} dismissible>
-                Complaint submitted successfully!
-            </Alert>
+                <Alert variant="success" onClose={() => setIsSubmitted(false)} dismissible>
+                    Complaint submitted successfully!
+                </Alert>
             )}
             <Form onSubmit={handleFormSubmit}>
+                {/* Form inputs */}
                 {/* Name input */}
                 <Form.Group controlId="formName" className="mb-3">
                     <Form.Label>Name</Form.Label>

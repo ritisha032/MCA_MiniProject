@@ -46,7 +46,7 @@ const MessMenu = () => {
                             <tr>
                                 <th>Meal Name</th>
                                 <th>Time</th>
-                                <th>Cost ($)</th>
+                                <th>Cost (₹)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -54,7 +54,7 @@ const MessMenu = () => {
                                 <tr key={index}>
                                     <td>{meal.mealName}</td>
                                     <td>{meal.time}</td>
-                                    <td>${meal.cost}</td>
+                                    <td>₹{meal.cost}</td>
                                 </tr>
                             ))}
                         </tbody>

@@ -46,6 +46,7 @@ const LoginPage = () => {
           navigate('/');
         }
       } else {
+        console.log("res ka data= ",res);
         toast.warning(res.data.message);
       }
     } catch (error) {

@@ -4,6 +4,7 @@ import mailSender from "../utils/email/mailSender.js";
 import Token from "../models/token.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import ComplaintModel from "../models/complaint.js";
 const clientURL = process.env.CLIENT_URL;
 import { resetTemplate } from "../utils/email/template/resetPassword.js";
 //import { Resend } from "resend";
@@ -116,7 +117,7 @@ const authenticateUser = async (req, res) => {
         })
         .status(200);
     } else {
-      return res.status(401).json({
+      return res.status(201).json({
         success: false,
         message: "Invalid Email or Password",
       });
@@ -217,4 +218,16 @@ const resetPassword = asyncHandler(async (req, res) => {
   return res.status(200).json({ message: "Password reset was successful" });
 });
 
-export { registerUser, authenticateUser, requestPasswordReset, resetPassword };
+const addComplaint=async(req,res)=>{
+  try {
+    const { name, roomNumber, complaintType, complaintText } = req.body;
+  //  console.log("req ki body = ",req.body);
+    const newComplaint = new ComplaintModel({ name, roomNumber, complaintType, complaintText });
+    await newComplaint.save();
+    res.status(201).json({ message: 'Complaint submitted successfully!' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+}
+export { registerUser, authenticateUser, requestPasswordReset, resetPassword,addComplaint };
