@@ -10,63 +10,64 @@ import { resetTemplate } from "../utils/email/template/resetPassword.js";
 
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password, isAdmin } = req.body;
-    //  console.log(req.body);
+    const { name, email, password, isAdmin, roomNo } = req.body;
 
-    if (!name || !email || !password) {
-      return res.status(403).json({
+    // Email format validation
+    const emailRegex = /@mnnit\.ac\.in$/;
+    if (!emailRegex.test(email)) {
+      return res.status(201).json({
         success: false,
-        message: "Please Enter All the User Fields",
+        message: "Email must be in @mnnit.ac.in format",
+      });
+    }
+
+    if (!name || !email || !password || !roomNo) {
+      return res.status(400).json({
+        success: false,
+        message: "Please enter all the required fields",
       });
     }
 
     const existingUser = await UserModel.findOne({ email });
     if (existingUser) {
-      return res
-        .json({
-          success: false,
-          message: "User Already Exists",
-        })
-        .status(204);
+      return res.status(400).json({
+        success: false,
+        message: "User already exists",
+      });
     }
 
-    const newUserDetails = { name, email, password, isAdmin };
+    const newUserDetails = { name, email, password, isAdmin, roomNo };
 
     const createdUser = await UserModel.create(newUserDetails);
-    //   console.log("created user= ",createdUser);
 
     if (!createdUser) {
-      return res
-        .json({
-          success: false,
-          message: "User Not Found",
-        })
-        .status(204);
+      return res.status(500).json({
+        success: false,
+        message: "User creation failed",
+      });
     }
 
-    return res
-      .json({
-        success: true,
-        message: "Sign up successful",
+    return res.status(201).json({
+      success: true,
+      message: "User created successfully",
+      user: {
         _id: createdUser._id,
         name: createdUser.name,
         email: createdUser.email,
         isAdmin: createdUser.isAdmin,
-        token: generateToken(createdUser._id),
-        expiryTime: Date.now() + 15 * 24 * 60 * 60 * 1000, // Expire session after 15 days
-      })
-      .status(200);
-  } catch (err) {
-    console.error(err);
-
-    return res
-      .json({
-        success: false,
-        message: "User registration failed",
-      })
-      .status(500);
+        roomNo: createdUser.roomNo,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
   }
 };
+
+export default registerUser;
 
 const authenticateUser = async (req, res) => {
   try {

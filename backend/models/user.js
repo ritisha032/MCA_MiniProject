@@ -7,8 +7,9 @@ const userSchema = new Schema({
     name: { type: String, required: true },
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
-    isAdmin: {type: Boolean, required: true, default: false }
-})
+    isAdmin: { type: Boolean, required: true, default: false },
+    roomNo: { type: String, required: true }, // Add roomNo field
+});
 
 // Checking if entered password by user during login is authentic
 userSchema.methods.matchPasswords = async function (enteredPassword) {
@@ -19,17 +20,16 @@ userSchema.methods.matchPasswords = async function (enteredPassword) {
 userSchema.pre("save", async function (next) {
     // Encrypt the password only if it's modified or created
     if (this.isModified("password")) {
-      try {
-        const salt = await bcrypt.genSalt();
-        this.password = await bcrypt.hash(this.password, salt);
-        return;
-      } catch (error) {
-        next(error);
-      }
+        try {
+            const salt = await bcrypt.genSalt();
+            this.password = await bcrypt.hash(this.password, salt);
+            return;
+        } catch (error) {
+            next(error);
+        }
     }
     next();
 });
 
 const userModel = mongoose.model('user', userSchema);
-
-export default userModel;
+export default userModel;
