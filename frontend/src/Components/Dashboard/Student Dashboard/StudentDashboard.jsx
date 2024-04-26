@@ -15,14 +15,20 @@ import FeedbackIcon from '@mui/icons-material/Feedback';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useAuth } from "../../../context/auth";
 
 function StudentDashboard() {
     const navigate = useNavigate();  // Initialize useNavigate hook
+    const [auth, setAuth] = useAuth();
 
     // Function to handle logout button click
     const handleLogout = () => {
         // Perform any additional logout logic if needed, e.g., clearing session data
         localStorage.removeItem("auth");
+        setAuth({
+            user: null,
+            token: ""
+          });
         navigate('/login'); // Navigate to the login page
     };
 

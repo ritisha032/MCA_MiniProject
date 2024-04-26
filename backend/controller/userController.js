@@ -72,7 +72,7 @@ export default registerUser;
 const authenticateUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(req.body);
+  //  console.log(req.body);
 
     if (!email || !password) {
       return res.status(400).json({
@@ -83,6 +83,7 @@ const authenticateUser = async (req, res) => {
 
     // Find a user with the entered email
     let user = await UserModel.findOne({ email });
+   // console.log("user= ",user);
 
     // Check if a user with entered email exists and check if entered password
     // matches the stored user password
@@ -91,6 +92,7 @@ const authenticateUser = async (req, res) => {
         id: user._id,
         email: user.email,
         role: user.isAdmin,
+        roomNo:user.roomNo,
       };
       const token = jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "24h",

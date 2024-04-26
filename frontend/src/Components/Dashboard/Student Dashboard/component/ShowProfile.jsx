@@ -3,27 +3,27 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
+import { auth,useAuth } from "../../../../context/auth";
 
 function StudentProfile() {
+    // Access the auth object from the context
+    const { auth,setAuth } = useAuth();
+
+    const user = localStorage.getItem("auth");
+    const parsedData = JSON.parse(user);
+    // Extract user details from the auth object
+ //  console.log("auth= ",parsedData.user.name);
+
     // Define state variables to hold the student's name and room number
     const [studentName, setStudentName] = useState('');
     const [roomNumber, setRoomNumber] = useState('');
 
-    // Fetch the student's data from the backend
     useEffect(() => {
-        // Fetch student data from the backend
-        // Replace 'your-api-endpoint' with the actual API endpoint
-        fetch('/api/student/profile')
-            .then(response => response.json())
-            .then(data => {
-                // Update the state variables with the fetched data
-                setStudentName(data.name);
-                setRoomNumber(data.roomNumber);
-            })
-            .catch(error => {
-                console.error('Error fetching student data:', error);
-            });
-    }, []); // The empty dependency array ensures the effect runs only once when the component mounts
+        
+            setStudentName(parsedData.user.name);
+            setRoomNumber(parsedData.user.roomNo);
+        
+    }, []); // Update whenever the user object changes
 
     return (
         <Container>
@@ -34,10 +34,10 @@ function StudentProfile() {
                         <Card.Body>
                             {/* Display the student's name and room number */}
                             <Card.Title style={{ fontSize: '2rem', textAlign: 'center' }}>
-                                {studentName}
+                               Hello {studentName}
                             </Card.Title>
                             <Card.Text style={{ fontSize: '1.5rem', textAlign: 'center' }}>
-                                {roomNumber}
+                               Room No {roomNumber}
                             </Card.Text>
                         </Card.Body>
                     </Card>
