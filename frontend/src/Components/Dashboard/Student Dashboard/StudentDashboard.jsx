@@ -22,6 +22,7 @@ function StudentDashboard() {
     // Function to handle logout button click
     const handleLogout = () => {
         // Perform any additional logout logic if needed, e.g., clearing session data
+        localStorage.removeItem("auth");
         navigate('/login'); // Navigate to the login page
     };
 

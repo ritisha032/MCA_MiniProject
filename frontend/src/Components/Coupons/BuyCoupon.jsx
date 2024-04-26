@@ -5,6 +5,7 @@ import { useAuth } from '../../context/auth';
 
 const BuyCoupon = () => {
     const [menuData, setMenuData] = useState([]);
+    const [mealCost,setMealCost]=useState([]);
     const [auth] = useAuth();
     const [coupon, setCoupon] = useState();
     const [toastOpen, setToastOpen] = useState(false);

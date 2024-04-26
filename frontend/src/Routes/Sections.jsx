@@ -21,7 +21,7 @@ import StudentDash from "../Components/Dashboard/Student Dashboard/StudentDashbo
 import Complaint from "../Components/Dashboard/Student Dashboard/component/Complaint";
 import FeedbackForm from "../Components/Dashboard/Student Dashboard/component/Feedback";
 import ShowProfile from "../Components/Dashboard/Student Dashboard/component/ShowProfile";
-import Hostels from "../Components/Dashboard/Admin Dashboard/component/Hostels"
+import Hostels from "../Components/Dashboard/Admin Dashboard/component/Hostels";
 // import StudentDashboard from "../Components/Dashboard/Student Dashboard/StudentDashboard";
 const Routers = () => {
   const [userRole, setUserRole] = useState("");
@@ -43,34 +43,29 @@ const Routers = () => {
 
         <Route path="/dashboard" element={<PrivateRoute />}>
           {/* <Route path="student" element={<StudentDashboard/>} /> */}
-          <Route path="student" element={<StudentDash/>} >
-            <Route path="" element={<ShowProfile/>} /> {/* Corrected closing angle bracket */}
-            <Route path="messmenu" element={<MessMenu />} /> {/* Corrected closing angle bracket */}
+          <Route path="student" element={<StudentDash />}>
+            <Route path="" element={<ShowProfile />} />{" "}
+            {/* Corrected closing angle bracket */}
+            <Route path="messmenu" element={<MessMenu />} />{" "}
+            {/* Corrected closing angle bracket */}
             <Route path="mycoupons" element={<MyCoupon />} />
             <Route path="buycoupon" element={<BuyCoupon />} />
             <Route path="complaint" element={<Complaint />} />
             <Route path="feedback" element={<FeedbackForm />} />
             <Route path="profile" element={<ShowProfile />} />
           </Route>
-          
-
         </Route>
 
         <Route path="/dashboard" element={<AdminRoute />}>
           <Route path="admin" element={<AdminDashboard />}>
-
-          <Route path="messmenu" element={<MessMenu />} /> {/* Corrected closing angle bracket */}
-          <Route path="changemenu" element={<UpdateMenu />} />
-          <Route path="mycoupons" element={<MyCoupon />} />
-          <Route path="buycoupon" element={<BuyCoupon />} />
-          <Route path="hostels" element={<Hostels />} />
-
+            <Route path="messmenu" element={<MessMenu />} />{" "}
+            {/* Corrected closing angle bracket */}
+            <Route path="changemenu" element={<UpdateMenu />} />
+            <Route path="mycoupons" element={<MyCoupon />} />
+            <Route path="buycoupon" element={<BuyCoupon />} />
+            <Route path="hostels" element={<Hostels />} />
           </Route>
         </Route>
-
-
-
-
       </Routes>
     </>
   );
