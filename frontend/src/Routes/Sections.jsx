@@ -4,7 +4,7 @@ import LoginPage from "../Components/Login_SignUp/LoginPage";
 // import "./style.css";
 import Landing from "../Components/Outside/Front Page/Landing";
 import Contact from "../Components/Outside/Contact/Contact";
-import AdminDashboard from "../Components/Dashboard/Admin Dashboard/Admin/AdminDashboard";
+import AdminDashboard from "../Components/Dashboard/Admin Dashboard/AdminDashboard";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import Reset from "../Components/Outside/ResetPassword/Reset";
@@ -21,6 +21,7 @@ import StudentDash from "../Components/Dashboard/Student Dashboard/StudentDashbo
 import Complaint from "../Components/Dashboard/Student Dashboard/component/Complaint";
 import FeedbackForm from "../Components/Dashboard/Student Dashboard/component/Feedback";
 import ShowProfile from "../Components/Dashboard/Student Dashboard/component/ShowProfile";
+import Hostels from "../Components/Dashboard/Admin Dashboard/component/Hostels"
 // import StudentDashboard from "../Components/Dashboard/Student Dashboard/StudentDashboard";
 const Routers = () => {
   const [userRole, setUserRole] = useState("");
@@ -56,11 +57,15 @@ const Routers = () => {
         </Route>
 
         <Route path="/dashboard" element={<AdminRoute />}>
-          <Route path="admin" element={<AdminDashboard />}></Route>
-          <Route path="admin/messmenu" element={<MessMenu />} /> {/* Corrected closing angle bracket */}
-          <Route path="admin/changemenu" element={<UpdateMenu />} />
-          <Route path="admin/mycoupons" element={<MyCoupon />} />
-          <Route path="admin/buycoupon" element={<BuyCoupon />} />
+          <Route path="admin" element={<AdminDashboard />}>
+
+          <Route path="messmenu" element={<MessMenu />} /> {/* Corrected closing angle bracket */}
+          <Route path="changemenu" element={<UpdateMenu />} />
+          <Route path="mycoupons" element={<MyCoupon />} />
+          <Route path="buycoupon" element={<BuyCoupon />} />
+          <Route path="hostels" element={<Hostels />} />
+
+          </Route>
         </Route>
 
 
