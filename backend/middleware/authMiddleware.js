@@ -7,7 +7,7 @@ export const protect = async (req, res, next) => {
       req.cookies.token ||
       req.body.token ||
       req.header("Authorization").replace("Bearer ", "");
-    console.log("token is", token);
+  //  console.log("token is", token);
 
     //if token missing, then return response
     if (!token) {
@@ -20,9 +20,9 @@ export const protect = async (req, res, next) => {
     //verify the token
     try 
     {
-      console.log("token is ",token);
+     // console.log("token is ",token);
       const decode = jwt.verify(token, process.env.JWT_SECRET);
-      console.log("decode= ",decode);
+    //  console.log("decode= ",decode);
       req.user = decode;
     } catch (err) {
       //verification - issue
@@ -39,7 +39,7 @@ export const protect = async (req, res, next) => {
 
 export const adminCheck = async (req, res, next) => {
   try {
-    console.log("req.user.isAdmin= ",req.user.role);
+ //   console.log("req.user.isAdmin= ",req.user.role);
     if (!req.user.role) {
       return res.json({ message: "Authorized only for admin" }).status(401);
     }

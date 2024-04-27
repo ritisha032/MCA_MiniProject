@@ -7,6 +7,7 @@ import { appErrorHandler, notFoundHandler } from './middleware/errorMiddleware.j
 import cors from 'cors';
 import path from 'path';
 import cookieParser from 'cookie-parser';
+import messRoutes from "./routes/messRoutes.js";
 const app = express();
 const DIRNAME = path.resolve();
 dotenv.config();
@@ -24,6 +25,7 @@ app.use(cookieParser());
 // Route handlers
 app.use("/api/user",userRoutes);
 app.use("/api/admin" ,adminRoutes);
+app.use("/api/mess",messRoutes);
 
 
 
