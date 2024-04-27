@@ -15,6 +15,9 @@ import FeedbackIcon from '@mui/icons-material/Feedback';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
+
 
 function AdminDashboard() {
     const navigate = useNavigate();  // Initialize useNavigate hook
@@ -33,12 +36,22 @@ function AdminDashboard() {
                         <div className='vh-100 w-100 p-3'>
                             <div className='p-2 m-auto text-center'>
                                 {/* <Image style={{ width: '50px' }} src="https://picsum.photos/200" roundedCircle /> */}
-                                <AccountCircleIcon style={{ color: 'white', fontSize: '60px' }} />
+                                <AccountCircleIcon style={{ color: 'white', fontSize: '100px' }} />
 
                             </div>
                             <div className="p-2">
+                                <NavLink to="" style={({ isActive }) => (isActive ? { color: "" } : {})}>
+                                    <DashboardIcon style={{ color: '#f1c40f' }} />Dashboard
+                                </NavLink>
+                            </div>
+                            <div className="p-2">
+                                <NavLink to="updateprofile" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
+                                    <Person2Icon style={{ color: '#f1c40f' }} /> Edit Profile
+                                </NavLink>
+                            </div>
+                            <div className="p-2">
                                 <NavLink to="messmenu" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
-                                    <Person2Icon style={{ color: '#f1c40f' }} /> Mess menu
+                                    <RestaurantMenuIcon style={{ color: '#f1c40f' }} /> Mess menu
                                 </NavLink>
                             </div>
                             <div className="p-2">
@@ -48,20 +61,24 @@ function AdminDashboard() {
                             </div>
                             <div className="p-2">
                                 <NavLink to="mycoupons" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
-                                    <ShoppingBagIcon style={{ color: '#e67e22' }} /> My Coupons
+                                    <ShoppingBagIcon style={{ color: '#f1c40f' }} /> My Coupons
                                 </NavLink>
                             </div>
                             <div className="p-2">
                                 <NavLink to="buycoupon" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
-                                    <BookOnlineIcon style={{ color: 'green' }} /> Buy Coupons
+                                    <BookOnlineIcon style={{ color: '#f1c40f' }} /> Buy Coupons
                                 </NavLink>
                             </div>
                             <div className="p-2">
-                                <NavLink to="hostels" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
-                                    <BookOnlineIcon style={{ color: 'green' }} /> Hostels 
+                                <NavLink to="complaint" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
+                                    <ArchiveIcon style={{ color: '#f1c40f' }} /> Complaint
                                 </NavLink>
                             </div>
-                          
+                            <div className="p-2">
+                                <NavLink to="feedback" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
+                                    <FeedbackIcon style={{ color: '#f1c40f' }} /> Feeback
+                                </NavLink>
+                            </div>
 
                         </div>
                     </Col>

@@ -22,6 +22,10 @@ import Complaint from "../Components/Dashboard/Student Dashboard/component/Compl
 import FeedbackForm from "../Components/Dashboard/Student Dashboard/component/Feedback";
 import ShowProfile from "../Components/Dashboard/Student Dashboard/component/ShowProfile";
 import Hostels from "../Components/Dashboard/Admin Dashboard/component/Hostels";
+import Feedback from "../Components/Dashboard/Admin Dashboard/component/Feedback/FeedbackAdmin";
+import ComplaintAdmin from "../Components/Dashboard/Admin Dashboard/component/Complaint/ComplaintAdmin";
+import UpdateProfile from "../Components/Dashboard/Admin Dashboard/component/Profile/UpdateProfile";
+import ProfileAdmin from "../Components/Dashboard/Admin Dashboard/component/Profile/ProfileAdmin";
 // import StudentDashboard from "../Components/Dashboard/Student Dashboard/StudentDashboard";
 const Routers = () => {
   const [userRole, setUserRole] = useState("");
@@ -35,6 +39,7 @@ const Routers = () => {
     <>
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/home" element={<Landing />} />
         <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
 
         <Route path="/signup" element={<SignupPage />} />
@@ -59,11 +64,17 @@ const Routers = () => {
         <Route path="/dashboard" element={<AdminRoute />}>
           <Route path="admin" element={<AdminDashboard />}>
             <Route path="messmenu" element={<MessMenu />} />{" "}
+            <Route path="" element={<ProfileAdmin />} />{" "}
             {/* Corrected closing angle bracket */}
             <Route path="changemenu" element={<UpdateMenu />} />
             <Route path="mycoupons" element={<MyCoupon />} />
             <Route path="buycoupon" element={<BuyCoupon />} />
-            <Route path="hostels" element={<Hostels />} />
+            {/* <Route path="hostels" element={<Hostels />} /> */}
+            <Route path="complaint" element={<ComplaintAdmin />} />
+            <Route path="feedback" element={<Feedback />} />
+            <Route path="updateprofile" element={<UpdateProfile />} />
+            {/* <Route path="profile" element={<ProfileAdmin />} /> */}
+            {/* <Route path="hostels" element={<Hostels />} /> */}
           </Route>
         </Route>
       </Routes>

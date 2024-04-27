@@ -1,0 +1,25 @@
+import React from 'react';
+import { Card, Row, Col, Container } from 'react-bootstrap';
+
+const CompletedComplaints = ({ completedComplaints }) => {
+    return (
+        <Container>
+            {completedComplaints.map((complaint) => (
+                <Card key={complaint.id} className="mb-3 shadow-sm">
+                    <Card.Header className="bg-success text-white">
+                        <Row>
+                            <Col><strong>Name:</strong> {complaint.name}</Col>
+                            <Col><strong>Room:</strong> {complaint.room}</Col>
+                            <Col><strong>Type:</strong> {complaint.type}</Col>
+                        </Row>
+                    </Card.Header>
+                    <Card.Body>
+                        <Card.Text><strong>Complaint:</strong> {complaint.text}</Card.Text>
+                    </Card.Body>
+                </Card>
+            ))}
+        </Container>
+    );
+};
+
+export default CompletedComplaints;

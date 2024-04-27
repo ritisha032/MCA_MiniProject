@@ -42,7 +42,7 @@ function StudentDashboard() {
                         <div className='vh-100 w-100 p-3'>
                             <div className='p-2 m-auto text-center'>
                                 {/* <Image style={{ width: '50px' }} src="https://picsum.photos/200" roundedCircle /> */}
-                                    <AccountCircleIcon style={{ color: 'white',fontSize:'60px'}} /> 
+                                    <AccountCircleIcon style={{ color: 'white',fontSize:'100px'}} /> 
                                 
                             </div>
                             <div className="p-2">
@@ -57,22 +57,22 @@ function StudentDashboard() {
                             </div>
                             <div className="p-2">
                                 <NavLink to="mycoupons" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
-                                    <ShoppingBagIcon style={{ color: '#e67e22' }} /> My Coupons
+                                    <ShoppingBagIcon style={{ color: '#f1c40f' }} /> My Coupons
                                 </NavLink>
                             </div>
                             <div className="p-2">
                                 <NavLink to="buycoupon" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
-                                    <BookOnlineIcon style={{ color: 'green' }} /> Buy Coupons
+                                    <BookOnlineIcon style={{ color: '#f1c40f' }} /> Buy Coupons
                                 </NavLink>
                             </div>
                             <div className="p-2">
                                 <NavLink to="complaint" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
-                                    <ArchiveIcon style={{ color: 'black' }} /> Complaint
+                                    <ArchiveIcon style={{ color: '#f1c40f' }} /> Complaint
                                 </NavLink>
                             </div>
                             <div className="p-2">
                                 <NavLink to="feedback" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
-                                    <FeedbackIcon style={{ color: 'black' }} /> Feeback
+                                    <FeedbackIcon style={{ color: '#f1c40f' }} /> Feeback
                                 </NavLink>
                             </div>
                             
