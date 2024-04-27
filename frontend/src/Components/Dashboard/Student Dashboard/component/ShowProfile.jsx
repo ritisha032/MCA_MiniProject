@@ -12,16 +12,16 @@ function StudentProfile() {
     const user = localStorage.getItem("auth");
     const parsedData = JSON.parse(user);
     // Extract user details from the auth object
- //  console.log("auth= ",parsedData.user.name);
+  console.log("auth= ",parsedData);
 
     // Define state variables to hold the student's name and room number
     const [studentName, setStudentName] = useState('');
-    const [roomNumber, setRoomNumber] = useState('');
+    const [hostelName, setHostelName] = useState('');
 
     useEffect(() => {
         
             setStudentName(parsedData.user.name);
-            setRoomNumber(parsedData.user.roomNo);
+            setHostelName(parsedData.messName);
         
     }, []); // Update whenever the user object changes
 
@@ -37,7 +37,7 @@ function StudentProfile() {
                                Hello {studentName}
                             </Card.Title>
                             <Card.Text style={{ fontSize: '1.5rem', textAlign: 'center' }}>
-                               Room No {roomNumber}
+                               HostelName {hostelName}
                             </Card.Text>
                         </Card.Body>
                     </Card>

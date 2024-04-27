@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -9,11 +9,29 @@ const SignupPage = () => {
     name: '',
     email: '',
     password: '',
-    roomNo: '', // New state for room number
+    selectedMess: '', // New state for selected mess
   });
+  const [messes, setMesses] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // Fetch messes from your API endpoint
+    const fetchMesses = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API}/api/mess/getMesses`);
+        if (Array.isArray(response.data)) {
+          setMesses(response.data); // Assuming the response is an array of objects
+        } else {
+          console.error('Invalid response data:', response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching messes:', error);
+      }
+    };
+  
+    fetchMesses();
+  }, []);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -83,15 +101,18 @@ const SignupPage = () => {
           </label>
 
           <label>
-            Room No:
-            <input
-              type="text"
-              name="roomNo"
-              value={formData.roomNo}
+            Mess:
+            <select
+              name="selectedMess"
+              value={formData.selectedMess}
               onChange={handleInputChange}
               required
-              placeholder='Enter your room number'
-            />
+            >
+              <option value="">Select Mess</option>
+              {messes.map(mess => (
+                <option key={mess.messId} value={mess.messName}>{mess.messName}</option>
+              ))}
+            </select>
           </label>
 
           <button type="submit">Submit</button>

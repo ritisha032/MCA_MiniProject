@@ -22,7 +22,18 @@ const addMess = async (req, res) => {
 };
 
   
+const getMess=async(req,res)=>{
+  try {
+    // Fetch all messes from the database
+    const messes = await mess.find({}, 'messName'); // Only fetch 'messName' field
 
+    // Send the messes as a response
+    res.status(200).json(messes);
+  } catch (error) {
+    console.error('Error fetching messes:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
 const deleteMess = async (req, res) => {
   try {
     const messID = req.params.id;
@@ -44,4 +55,4 @@ const deleteMess = async (req, res) => {
   }
 };
 
-export  { addMess,deleteMess }
+export  { addMess,deleteMess,getMess }

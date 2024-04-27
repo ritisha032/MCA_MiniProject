@@ -5,13 +5,13 @@ import Token from "../models/token.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import ComplaintModel from "../models/complaint.js";
+import mess from "../models/mess.js";
 const clientURL = process.env.CLIENT_URL;
 import { resetTemplate } from "../utils/email/template/resetPassword.js";
 //import { Resend } from "resend";
-
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password, isAdmin, roomNo } = req.body;
+    const { name, email, password, isAdmin, messName } = req.body; // Change roomNo to messName
 
     // Email format validation
     const emailRegex = /@mnnit\.ac\.in$/;
@@ -22,10 +22,20 @@ const registerUser = async (req, res) => {
       });
     }
 
-    if (!name || !email || !password || !roomNo) {
+    if (!name || !email || !password || !messName) { // Change roomNo to messName
       return res.status(400).json({
         success: false,
         message: "Please enter all the required fields",
+      });
+    }
+
+    // Find the mess document based on the provided messName
+    const Mess = await mess.findOne({ messName });
+
+    if (!Mess) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid messName",
       });
     }
 
@@ -37,7 +47,7 @@ const registerUser = async (req, res) => {
       });
     }
 
-    const newUserDetails = { name, email, password, isAdmin, roomNo };
+    const newUserDetails = { name, email, password, isAdmin, messId: Mess.messId }; // Assign the found messId
 
     const createdUser = await UserModel.create(newUserDetails);
 
@@ -56,7 +66,7 @@ const registerUser = async (req, res) => {
         name: createdUser.name,
         email: createdUser.email,
         isAdmin: createdUser.isAdmin,
-        roomNo: createdUser.roomNo,
+        messId: createdUser.messId,
       },
     });
   } catch (error) {
@@ -73,7 +83,6 @@ export default registerUser;
 const authenticateUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-  //  console.log(req.body);
 
     if (!email || !password) {
       return res.status(400).json({
@@ -84,38 +93,48 @@ const authenticateUser = async (req, res) => {
 
     // Find a user with the entered email
     let user = await UserModel.findOne({ email });
-   // console.log("user= ",user);
 
     // Check if a user with entered email exists and check if entered password
     // matches the stored user password
     if (user && (await user.matchPasswords(password))) {
+      // Find the mess document based on the user's messId
+      const messId=user.messId;
+      const Mess = await mess.findOne({messId}); // Use findById to find document by ID
+      const messName=Mess ? Mess.messName : 'Unknown Mess';
       const payload = {
         id: user._id,
         email: user.email,
         role: user.isAdmin,
-        roomNo:user.roomNo,
+        roomNo: user.roomNo,
+        messId: user.messId,
+        messName: Mess ? Mess.messName : 'Unknown Mess', // Get the mess name from the mess document
       };
+      
+      // Generate JWT token
       const token = jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "24h",
       });
-      user = user.toObject();
 
+      // Omit sensitive information from user object
+      user = user.toObject();
       user.token = token;
       user.password = undefined;
 
+      // Set cookie with token
       const options = {
         expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
         httpOnly: true,
       };
-      res
-        .cookie("token", token, options)
+
+      // Send response with token and user data
+      res.cookie("token", token, options)
         .json({
           success: true,
           token,
           user,
+          messName,
           message: `User Login Success`,
-        })
-        .status(200);
+        });
     } else {
       return res.status(201).json({
         success: false,
@@ -130,6 +149,8 @@ const authenticateUser = async (req, res) => {
     });
   }
 };
+
+
 
 const requestPasswordReset = asyncHandler(async (req, res) => {
   const { email } = req.body;

@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
-const { Schema } =  mongoose;
+const { Schema } = mongoose;
 
 const userSchema = new Schema({
     name: { type: String, required: true },
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     isAdmin: { type: Boolean, required: true, default: false },
-    roomNo: { type: String, required: true }, // Add roomNo field
+    messId: { type:String, ref: 'mess', required: true }, // Add messId field
 });
 
 // Checking if entered password by user during login is authentic
