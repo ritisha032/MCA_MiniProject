@@ -3,11 +3,13 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import  userRoutes  from "./routes/userRoutes.js"
 import adminRoutes from "./routes/adminRoutes.js";
+import passwordRoutes from "./routes/passwordRoutes.js";
 import { appErrorHandler, notFoundHandler } from './middleware/errorMiddleware.js';
 import cors from 'cors';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import messRoutes from "./routes/messRoutes.js";
+
 const app = express();
 const DIRNAME = path.resolve();
 dotenv.config();
@@ -26,7 +28,7 @@ app.use(cookieParser());
 app.use("/api/user",userRoutes);
 app.use("/api/admin" ,adminRoutes);
 app.use("/api/mess",messRoutes);
-
+app.use("/api/password", passwordRoutes);
 
 
 // Error middlewares 

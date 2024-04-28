@@ -1,18 +1,17 @@
 import asyncHandler from "express-async-handler";
-import UserModel from "../models/user.js";
-import mailSender from "../utils/email/mailSender.js";
+import User from "../models/user.js";
+import mailSender from "../utils/mailSender.js";
 import Token from "../models/token.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import ComplaintModel from "../models/complaint.js";
-import mess from "../models/mess.js";
-import feedbackModel from "../models/feedback.js";
+import Complaint from "../models/complaint.js";
+import Mess from "../models/mess.js";
+import Feedback from "../models/feedback.js";
 const clientURL = process.env.CLIENT_URL;
-import { resetTemplate } from "../utils/email/template/resetPassword.js";
-//import { Resend } from "resend";
+
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password,selectedMess, roomNo } = req.body;
+    const { name, email, password, selectedMess, roomNo } = req.body;
 
     // Email format validation
     const emailRegex = /@mnnit\.ac\.in$/;
@@ -31,16 +30,16 @@ const registerUser = async (req, res) => {
     }
 
     // Find the mess document based on the provided selectedMess
-    const Mess = await mess.findOne({ messName: selectedMess });
+    const messDocument = await Mess.findOne({ messName: selectedMess });
 
-    if (!Mess) {
+    if (!messDocument) {
       return res.status(400).json({
         success: false,
         message: "Invalid messName",
       });
     }
 
-    const existingUser = await UserModel.findOne({ email });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
         success: false,
@@ -52,11 +51,11 @@ const registerUser = async (req, res) => {
       name,
       email,
       password,
-      messId: Mess.messId, // Assign the found mess ID
+      messId: messDocument.messId,
       roomNo
     };
 
-    const createdUser = await UserModel.create(newUserDetails);
+    const createdUser = await User.create(newUserDetails);
 
     if (!createdUser) {
       return res.status(500).json({
@@ -72,8 +71,8 @@ const registerUser = async (req, res) => {
         _id: createdUser._id,
         name: createdUser.name,
         email: createdUser.email,
-        messId: createdUser.messId, // Use mess ID instead of messId
-        roomNo: createdUser.roomNo // Include roomNo in the response
+        messId: createdUser.messId,
+        roomNo: createdUser.roomNo
       },
     });
   } catch (error) {
@@ -99,24 +98,24 @@ const authenticateUser = async (req, res) => {
     }
 
     // Find a user with the entered email
-    let user = await UserModel.findOne({ email });
+    let user = await User.findOne({ email });
 
     // Check if a user with entered email exists and check if entered password
     // matches the stored user password
     if (user && (await user.matchPasswords(password))) {
       // Find the mess document based on the user's messId
-      const messId=user.messId;
-      const Mess = await mess.findOne({messId}); // Use findById to find document by ID
-      const messName=Mess ? Mess.messName : 'Unknown Mess';
+      const messId = user.messId;
+      const messDocument = await Mess.findOne({ messId });
+      const messName = messDocument ? messDocument.messName : 'Unknown Mess';
       const payload = {
         id: user._id,
         email: user.email,
         role: user.isAdmin,
         roomNo: user.roomNo,
         messId: user.messId,
-        messName: Mess ? Mess.messName : 'Unknown Mess', // Get the mess name from the mess document
+        messName: messDocument ? messDocument.messName : 'Unknown Mess',
       };
-      
+
       // Generate JWT token
       const token = jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "24h",
@@ -158,106 +157,18 @@ const authenticateUser = async (req, res) => {
 };
 
 
-
-const requestPasswordReset = asyncHandler(async (req, res) => {
-  const { email } = req.body;
-  console.log("email= ", email);
-  const user = await UserModel.findOne({ email });
-
-  const resend = new Resend(process.env.RESEND_KEY);
-
-  if (!user) {
-    res.status(401);
-    throw new Error("User doesn't exist");
-  }
-
-  let token = await Token.findOne({ userId: user._id });
-  if (token) await token.deleteOne();
-
-  let resetToken = generateToken(user._id);
-  const salt = await bcrypt.genSalt();
-  const hash = await bcrypt.hash(resetToken, Number(salt));
-
-  await new Token({
-    userId: user._id,
-    token: hash,
-    createdAt: Date.now(),
-  }).save();
-
-  const link = `${clientURL}new-password?token=${resetToken}&id=${user._id}`;
-  console.log("link= ", link);
-  // sendEmail(
-  //   user.email,
-  //   'Password Reset Request',
-  //   {
-  //     name : user.name,
-  //     link,
-  //   },
-  //   resetTemplate(user.name,link)
-  // );
-  try {
-    //send mail containing the url
-    await mailSender(
-      email,
-      "Password Reset Link",
-      `Password Reset Link: ${link}`
-    );
-    //return response
-    return res.json({
-      success: true,
-      message: "Email sent successfully, please check email and change pwd",
-    });
-  } catch (error) {
-    console.log(error);
-  }
-  return res.json({ link });
-});
-
-const resetPassword = asyncHandler(async (req, res) => {
-  const { userId, token, password } = req.body;
-  let passwordResetToken = await Token.findOne({ userId });
-
-  if (!passwordResetToken) {
-    res.status(401);
-    throw new Error("Invalid or expired password reset token");
-  }
-
-  // console.log(passwordResetToken.token, token);
-
-  const isValid = await bcrypt.compare(token, passwordResetToken.token);
-
-  if (!isValid) {
-    res.status(401);
-    throw new Error("Invalid or expired password reset token");
-  }
-
-  const salt = await bcrypt.genSalt();
-  const hash = await bcrypt.hash(password, Number(salt));
-
-  await UserModel.updateOne(
-    { _id: userId },
-    { $set: { password: hash } },
-    { new: true }
-  );
-
-  const user = await UserModel.findById({ _id: userId });
-
-  await passwordResetToken.deleteOne();
-  return res.status(200).json({ message: "Password reset was successful" });
-});
-
 const addComplaint = async (req, res) => {
   try {
     const { name, roomNumber, complaintType, complaintText, messId } = req.body;
 
     // Assuming status defaults to "unresolved" and is not provided in the request body
 
-    const newComplaint = new ComplaintModel({
+    const newComplaint = new Complaint({
       name,
       roomNumber,
       complaintType,
       complaintText,
-      messId, // Add messId to the new complaint
+      messId,
     });
 
     await newComplaint.save();
@@ -268,13 +179,13 @@ const addComplaint = async (req, res) => {
   }
 }
 
-const addFeedback=async(req,res)=>{
+const addFeedback = async (req, res) => {
   try {
     // Extract feedback data from request body
     const { name, email, roomNumber, rating, feedbackText, messId } = req.body;
 
     // Create a new feedback document
-    const newFeedback = new feedbackModel({
+    const newFeedback = new Feedback({
       name,
       email,
       roomNumber,
@@ -294,4 +205,4 @@ const addFeedback=async(req,res)=>{
     res.status(500).json({ success: false, message: 'Failed to submit feedback' });
   }
 }
-export { registerUser, authenticateUser, requestPasswordReset, resetPassword,addComplaint,addFeedback};
+export { registerUser, authenticateUser,addComplaint, addFeedback };

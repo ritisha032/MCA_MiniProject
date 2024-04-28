@@ -1,34 +1,34 @@
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
+
 export const protect = async (req, res, next) => {
   try {
-    //extract token
+    // Extract token
     const token =
       req.cookies.token ||
       req.body.token ||
       req.header("Authorization").replace("Bearer ", "");
-  //  console.log("token is", token);
+    // console.log("token is", token);
 
-    //if token missing, then return response
+    // If token is missing, return response
     if (!token) {
       return res.status(401).json({
         success: false,
-        message: "TOken is missing",
+        message: "Token is missing",
       });
     }
 
-    //verify the token
-    try 
-    {
-     // console.log("token is ",token);
-      const decode = jwt.verify(token, process.env.JWT_SECRET);
-    //  console.log("decode= ",decode);
-      req.user = decode;
+    // Verify the token
+    try {
+      // console.log("token is ",token);
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      // console.log("decoded= ", decoded);
+      req.user = decoded;
     } catch (err) {
-      //verification - issue
+      // Verification issue
       return res.status(401).json({
         success: false,
-        message: "token is invalid",
+        message: "Token is invalid",
       });
     }
     next();
@@ -39,12 +39,12 @@ export const protect = async (req, res, next) => {
 
 export const adminCheck = async (req, res, next) => {
   try {
- //   console.log("req.user.isAdmin= ",req.user.role);
+    // console.log("req.user.isAdmin= ",req.user.role);
     if (!req.user.role) {
-      return res.json({ message: "Authorized only for admin" }).status(401);
+      return res.status(401).json({ message: "Authorized only for admin" });
     }
     next();
   } catch (error) {
-    return res.json({ message: "Not authorized, token failed" }).status(401);
+    return res.status(401).json({ message: "Not authorized, token failed" });
   }
 };

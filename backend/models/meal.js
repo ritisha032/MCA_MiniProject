@@ -8,4 +8,4 @@ const mealSchema = new Schema({
 },{versionKey: false});
 
 const Meal = mongoose.model('Meal', mealSchema) 
-export {Meal};
+export default Meal;

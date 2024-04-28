@@ -47,8 +47,7 @@ const Routers = () => {
 
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/forgot-password" element={<Reset />} />
-
+     
         <Route path="/dashboard" element={<PrivateRoute />}>
           {/* <Route path="student" element={<StudentDashboard/>} /> */}
           <Route path="student" element={<StudentDash />}>

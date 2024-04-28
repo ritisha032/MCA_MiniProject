@@ -1,18 +1,18 @@
-import mess from "../models/mess.js";
+import Mess from "../models/mess.js";
 
 const addMess = async (req, res) => {
   try {
-    const {messName,messEmail,messId,password} = req.body;
+    const { messName, messEmail, messId, password } = req.body;
     console.log("req ki body= ", req.body);
 
     // Check if mess already exists
-    const existingMess = await mess.findOne({messEmail});
+    const existingMess = await Mess.findOne({ messEmail });
     if (existingMess) {
-      return res.status(400).json({ message: "A mess with this email or ID already exists" ,mess:existingMess});
+      return res.status(400).json({ message: "A mess with this email or ID already exists", mess: existingMess });
     }
 
     // Create a new mess entity
-    const newMess = await mess.create({messName:messName,messEmail:messEmail,messId,password});
+    const newMess = await Mess.create({ messName: messName, messEmail: messEmail, messId: messId, password: password });
     console.log("new Mess= ", newMess);
 
     res.status(201).json({ message: "Mess created successfully", mess: newMess });
@@ -21,11 +21,10 @@ const addMess = async (req, res) => {
   }
 };
 
-  
-const getMess=async(req,res)=>{
+const getMess = async (req, res) => {
   try {
     // Fetch all messes from the database
-    const messes = await mess.find({}, 'messName'); // Only fetch 'messName' field
+    const messes = await Mess.find({}, 'messName'); // Only fetch 'messName' field
 
     // Send the messes as a response
     res.status(200).json(messes);
@@ -34,12 +33,13 @@ const getMess=async(req,res)=>{
     res.status(500).json({ message: 'Internal server error' });
   }
 }
+
 const deleteMess = async (req, res) => {
   try {
     const messID = req.params.id;
 
     // Find the mess by ID and delete it
-    const deletedMess = await messModel.findByIdAndDelete(messID);
+    const deletedMess = await Mess.findByIdAndDelete(messID);
 
     if (!deletedMess) {
       return res.status(404).json({ message: "Mess not found" });
@@ -55,4 +55,4 @@ const deleteMess = async (req, res) => {
   }
 };
 
-export  { addMess,deleteMess,getMess }
+export { addMess, deleteMess, getMess }
