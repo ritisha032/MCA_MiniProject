@@ -358,6 +358,7 @@ const MyCoupon = () => {
 //     });
 // };
 
+
 const downloadPDF = () => {
     // Create a new jsPDF instance
     const doc = new jsPDF();
@@ -369,6 +370,11 @@ const downloadPDF = () => {
     // Fetch hostel name from parsedData
     const hostelName = parsedData.messName;
 
+    // Get the current date and time
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString(); // Format the date
+    const formattedTime = currentDate.toLocaleTimeString(); // Format the time
+
     // Set the title "MESS COUPON" at the top
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(20);
@@ -378,21 +384,27 @@ const downloadPDF = () => {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(12);
 
-    // Add the buyer's information: name, mess ID, and email
-    doc.text(`Name: ${parsedData.user.name}`, 10, 30);
-    doc.text(`Mess ID: ${parsedData.user.messId}`, 10, 40);
-    doc.text(`Email: ${parsedData.user.email}`, 10, 50);
+   // Add the buyer's information: name, mess ID, and email
+doc.setFont('helvetica', 'bold');
+doc.text(`Name: ${parsedData.user.name}`, 10, 30);
+doc.text(`Mess ID: ${parsedData.user.messId}`, 10, 40);
+doc.text(`Email: ${parsedData.user.email}`, 10, 50);
 
-    // Check if the current route ends with '/dashboard/student/mycoupons'
-    const currentUrl = window.location.href;
-    if (currentUrl.endsWith('/dashboard/student/mycoupons')) {
-        // Add room number and hostel name only if the route ends with the specified path
-        doc.text(`Room No: ${parsedData.user.roomNo}`, 10, 60);
-        doc.text(`Hostel Name: ${hostelName}`, 10, 70);
-    }
+// Check if the current route ends with '/dashboard/student/mycoupons'
+const currentUrl = window.location.href;
+if (currentUrl.endsWith('/dashboard/student/mycoupons')) {
+    // Add room number and hostel name only if the route ends with the specified path
+    doc.text(`Room No: ${parsedData.user.roomNo}`, 10, 60);
+    doc.text(`Hostel Name: ${hostelName}`, 10, 70);
+}
+
+
+    // Add the date and time when the coupon was bought
+    doc.text(`Date: ${formattedDate}`, 10, 80);
+    doc.text(`Time: ${formattedTime}`, 10, 90);
 
     // Define the starting y-position for the table data
-    let yPosition = 85;
+    let yPosition = 100;
 
     // Add table headers
     doc.setFont('helvetica', 'bold');
@@ -430,21 +442,21 @@ const downloadPDF = () => {
 
         // Add breakfast item and highlight if selected
         if (breakfastSelected) {
-            doc.setFillColor(173, 216, 230); // Light blue color
+            doc.setFillColor(173, 216, 230); // Light green color
             doc.rect(60, yPosition - 5, 30, 10, 'F');
         }
         doc.text(breakfastItem, 60, yPosition);
 
         // Add lunch item and highlight if selected
         if (lunchSelected) {
-            doc.setFillColor(173, 216, 230); // Light blue color
+            doc.setFillColor(173, 216, 230); // Light green color
             doc.rect(100, yPosition - 5, 30, 10, 'F');
         }
         doc.text(lunchItem, 100, yPosition);
 
         // Add dinner item and highlight if selected
         if (dinnerSelected) {
-            doc.setFillColor(173, 216, 230); // Light blue color
+            doc.setFillColor(173, 216, 230); // Light green color
             doc.rect(140, yPosition - 5, 30, 10, 'F');
         }
         doc.text(dinnerItem, 140, yPosition);
@@ -462,6 +474,10 @@ const downloadPDF = () => {
         doc.save('my_coupon.pdf');
     });
 };
+
+// Call the downloadPDF function when needed
+// downloadPDF();
+
 
 
 
