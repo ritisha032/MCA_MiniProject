@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteUser, getFeedbacks,updateFeedback, getUsers, setMealCostTime, setMenu } from "../controller/adminController.js";
+import { deleteUser, getFeedbacks,updateFeedback, getUsers, setMealCostTime, setMenu, updateComplaint, getComplaints } from "../controller/adminController.js";
 import {protect,adminCheck} from "../middleware/authMiddleware.js";
 import { totalMealCount } from "../controller/couponController.js";
 
@@ -12,6 +12,8 @@ router.get("/:messName",protect,adminCheck,getUsers);
 router.get("/getFeedbacks/:messId",protect,adminCheck,getFeedbacks);
 router.put("/updateFeedback/:userId",protect,adminCheck,updateFeedback)
 router.delete("/:userId",protect,adminCheck,deleteUser);
+router.get("/getComplaints/:messId",protect,adminCheck,getComplaints);
+router.put("/updateComplaint/:complaintId",protect,adminCheck,updateComplaint);
 
 
 

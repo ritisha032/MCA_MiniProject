@@ -1,50 +1,56 @@
-import React, { useState } from 'react';
-import { Tabs, Tab, Container, Card, Row, Col, Button } from 'react-bootstrap';
-import PendingComplaints from './PendingComplaint';
-import CompletedComplaints from './CompletedComplaint';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useAuth } from "../../../../../context/auth";
 
 const ComplaintAdmin = () => {
-    // State to manage pending and completed complaints
-    const [pendingComplaints, setPendingComplaints] = useState([
-        { id: 1, name: 'John Doe', room: '101', text: 'Leaky faucet' },
-        { id: 2, name: 'Jane Smith', room: '102', text: 'Broken heater' },
-        { id: 3, name: 'Alice Brown', room: '103', text: 'Stuck door' },
-    ]);
+  const [complaints, setComplaints] = useState([]);
+  const user = useAuth()[0].user; // Assuming useAuth() returns [user, setUser]
 
-    const [completedComplaints, setCompletedComplaints] = useState([]);
-
-    // Function to handle marking a complaint as reviewed
-    const handleMarkAsReviewed = (complaint) => {
-        // Remove the complaint from the pending list
-        const updatedPendingComplaints = pendingComplaints.filter(
-            (comp) => comp.id !== complaint.id
-        );
-        setPendingComplaints(updatedPendingComplaints);
-
-        // Add the complaint to the completed list
-        setCompletedComplaints([...completedComplaints, complaint]);
+  useEffect(() => {
+    const fetchComplaints = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API}/api/admin/getComplaints/${user.messId}`);
+        setComplaints(response.data.complaints);
+      } catch (error) {
+        console.error(error);
+        // Handle error (e.g., show error message)
+      }
     };
 
-    return (
-        <Container className="mt-4">
-            <h2 className="mb-4">Complaint Page</h2>
-            <Tabs defaultActiveKey="pending" className="mb-3" fill>
-                {/* Pending Complaints Tab */}
-                <Tab eventKey="pending" title="Pending Complaints">
-                    <PendingComplaints
-                        pendingComplaints={pendingComplaints}
-                        handleMarkAsReviewed={handleMarkAsReviewed}
-                    />
-                </Tab>
+    if (user && user.messId) {
+      fetchComplaints();
+    }
+  }, [user]);
 
-                {/* Completed Complaints Tab */}
-                <Tab eventKey="completed" title="Completed Complaints">
-                    <CompletedComplaints completedComplaints={completedComplaints} />
-                </Tab>
-            </Tabs>
-        </Container>
-    );
+  const markAsResolved = async (complaintId) => {
+    try {
+     const response= await axios.put(`${process.env.REACT_APP_API}/api/admin/updateComplaint/${complaintId}`, { status: 'resolved' });
+     const updatedComplaints = complaints.filter(complaint => complaint._id !== complaintId);
+    setComplaints(updatedComplaints);
+    } catch (error) {
+      console.error(error);
+      // Handle error (e.g., show error message)
+    }
+  };
+
+  return (
+    <div>
+      <h2>Complaints Admin</h2>
+      {complaints.map(complaint => (
+        <div key={complaint._id}>
+          <p>
+            <strong>Name:</strong> {complaint.name}<br />
+            <strong>Room No:</strong> {complaint.roomNumber}<br />
+            <strong>Type:</strong> {complaint.complaintType}<br />
+            <strong>Complaint:</strong> {complaint.complaintText}
+          </p>
+          {complaint.status === 'unresolved' && (
+            <button onClick={() => markAsResolved(complaint._id)}>Mark as Resolved</button>
+          )}
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default ComplaintAdmin;
-    

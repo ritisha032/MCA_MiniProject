@@ -11,7 +11,7 @@ const Users = () => {
       
       // Fetch users data
       const response = await axios.get(`${process.env.REACT_APP_API}/api/admin/${auth.messName}`);
-      
+      console.log("users ka data= ",response);      
       const data = response.data; // Accessing the 'data' property
       setUsers(data); // Set users state
     } catch (error) {

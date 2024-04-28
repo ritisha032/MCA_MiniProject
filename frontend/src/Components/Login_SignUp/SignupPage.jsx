@@ -24,10 +24,10 @@ const SignupPage = () => {
         if (Array.isArray(response.data)) {
           setMesses(response.data); // Assuming the response is an array of objects
         } else {
-          console.error('Invalid response data:', response.data);
+          toast.error('Invalid response data:', response.data);
         }
       } catch (error) {
-        console.error('Error fetching messes:', error);
+        toast.error('Error fetching messes:', error);
       }
     };
   
@@ -48,7 +48,7 @@ const SignupPage = () => {
         formData
       );
 
-      console.log("response= ",response);
+  //    console.log("response= ",response);
 
       if (response.data.success) {
         toast.success(response.data.message);

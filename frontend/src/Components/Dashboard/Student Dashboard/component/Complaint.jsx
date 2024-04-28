@@ -4,11 +4,13 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Alert from 'react-bootstrap/Alert';
 import axios from 'axios'; // Import Axios
+import { useAuth } from '../../../../context/auth'; // Import useAuth hook
 
 function Complaint() {
+    // Get user data from useAuth hook
+    const { user } = useAuth()[0];
+
     // Define state variables for form fields
-    const [name, setName] = useState('');
-    const [roomNumber, setRoomNumber] = useState('');
     const [complaintType, setComplaintType] = useState('');
     const [complaintText, setComplaintText] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -17,25 +19,24 @@ function Complaint() {
     const handleFormSubmit = async (event) => {
         event.preventDefault(); // Prevent default form submission
 
-        // Prepare form data
+        // Prepare form data including user's name and room number
         const formData = {
-            name: name,
-            roomNumber: roomNumber,
+            name: user.name,
+            roomNumber: user.roomNo,
             complaintType: complaintType,
-            complaintText: complaintText
+            complaintText: complaintText,
+            messId: user.messId // Include messId in form data
         };
 
         try {
             // Make Axios POST request to API endpoint
-            const response=await axios.post(`${process.env.REACT_APP_API}/api/user/complaint`, formData);
+            const response = await axios.post(`${process.env.REACT_APP_API}/api/user/complaint`, formData);
             
-            console.log("response= ",response);
+            console.log("response= ", response);
             // If successful, set submission state to true
             setIsSubmitted(true);
 
             // Reset form fields after successful submission (optional)
-            setName('');
-            setRoomNumber('');
             setComplaintType('');
             setComplaintText('');
         } catch (error) {
@@ -59,10 +60,8 @@ function Complaint() {
                     <Form.Label>Name</Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder="Enter your name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
+                        value={user.name}
+                        readOnly // Make the field non-editable
                     />
                 </Form.Group>
 
@@ -71,10 +70,8 @@ function Complaint() {
                     <Form.Label>Room Number</Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder="Enter your room number"
-                        value={roomNumber}
-                        onChange={(e) => setRoomNumber(e.target.value)}
-                        required
+                        value={user.roomNo}
+                        readOnly // Make the field non-editable
                     />
                 </Form.Group>
 

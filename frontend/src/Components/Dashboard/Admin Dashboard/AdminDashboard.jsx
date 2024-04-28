@@ -106,6 +106,11 @@ function AdminDashboard() {
                                     <SupervisorAccountIcon style={{ color: '#f1c40f' }} /> Read Feedback
                                 </NavLink>
                             </div>
+                            <div className="p-2">
+    <NavLink to="resolvedcomplaints" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
+        <ArchiveIcon style={{ color: '#f1c40f' }} /> Resolved Complaints
+    </NavLink>
+</div>
                         </div>
                     </Col>
                     <Col xs={9}>

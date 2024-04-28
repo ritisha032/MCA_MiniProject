@@ -8,8 +8,15 @@ const complaintSchema = new mongoose.Schema({
       type: String,
       enum: ["food", "staff", "other"]
     },
-    complaintText: String
-  });
+    complaintText: String,
+    messId: String, // Assuming messId is a String, change it to the appropriate type if necessary
+    status: {
+      type: String,
+      enum: ["unresolved", "resolved"],
+      default: "unresolved"
+    }
+});
+
 const complaintModel = mongoose.model('Complaint', complaintSchema);
 
 export default complaintModel;
