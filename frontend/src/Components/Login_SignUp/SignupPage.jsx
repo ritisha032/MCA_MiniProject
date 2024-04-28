@@ -9,7 +9,8 @@ const SignupPage = () => {
     name: '',
     email: '',
     password: '',
-    selectedMess: '', // New state for selected mess
+    selectedMess: '',
+    roomNo: '', // New state for room number
   });
   const [messes, setMesses] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
@@ -32,6 +33,7 @@ const SignupPage = () => {
   
     fetchMesses();
   }, []);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -113,6 +115,18 @@ const SignupPage = () => {
                 <option key={mess.messId} value={mess.messName}>{mess.messName}</option>
               ))}
             </select>
+          </label>
+
+          <label>
+            Room Number:
+            <input
+              type="text"
+              name="roomNo"
+              value={formData.roomNo}
+              onChange={handleInputChange}
+              required
+              placeholder='Enter your room number'
+            />
           </label>
 
           <button type="submit">Submit</button>

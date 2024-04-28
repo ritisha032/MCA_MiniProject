@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'; // Import useNavigate hook
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
@@ -17,27 +17,37 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
-
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'; // Import SupervisorAccountIcon
+import { toast } from "react-toastify";
+import { useAuth } from "../../../context/auth";
 
 function AdminDashboard() {
-    const navigate = useNavigate();  // Initialize useNavigate hook
+    const navigate = useNavigate();
+    const [auth, setAuth] = useAuth();
+    const user = localStorage.getItem("auth");
+    const parsedData = JSON.parse(user);
+    console.log("parsed data= ",parsedData);
+    
 
-    // Function to handle logout button click
     const handleLogout = () => {
-        // Perform any additional logout logic if needed, e.g., clearing session data
-        navigate('/login'); // Navigate to the login page
+        localStorage.removeItem("auth");
+        setAuth({
+            user: null,
+            token: ""
+        });
+        toast.success("LogOut Successful")
+        navigate('/login');
     };
 
     return (
         <>
             <Container fluid style={{ height: '100%' }}>
+                {parsedData.messName} Hostel Admin
                 <Row>
                     <Col style={{ backgroundColor: '#34495e', height: 'auto' }}>
                         <div className='vh-100 w-100 p-3'>
                             <div className='p-2 m-auto text-center'>
-                                {/* <Image style={{ width: '50px' }} src="https://picsum.photos/200" roundedCircle /> */}
                                 <AccountCircleIcon style={{ color: 'white', fontSize: '100px' }} />
-
                             </div>
                             <div className="p-2">
                                 <NavLink to="" style={({ isActive }) => (isActive ? { color: "" } : {})}>
@@ -76,10 +86,14 @@ function AdminDashboard() {
                             </div>
                             <div className="p-2">
                                 <NavLink to="feedback" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
-                                    <FeedbackIcon style={{ color: '#f1c40f' }} /> Feeback
+                                    <FeedbackIcon style={{ color: '#f1c40f' }} /> Feedback
                                 </NavLink>
                             </div>
-
+                            <div className="p-2">
+                                <NavLink to="users" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
+                                    <SupervisorAccountIcon style={{ color: '#f1c40f' }} /> Users
+                                </NavLink>
+                            </div>
                         </div>
                     </Col>
                     <Col xs={9}>
@@ -90,7 +104,7 @@ function AdminDashboard() {
                                     <div className="p-2 ms-auto">
                                         <Button
                                             variant="outline-primary"
-                                            onClick={handleLogout} // Attach the handleLogout function to the button
+                                            onClick={handleLogout}
                                         >
                                             <LogoutIcon /> Log Out
                                         </Button>

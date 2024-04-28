@@ -7,8 +7,9 @@ const userSchema = new Schema({
     name: { type: String, required: true },
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
-    isAdmin: { type: Boolean, required: true, default: false },
-    messId: { type:String, ref: 'mess', required: true }, // Add messId field
+    isAdmin: { type: Boolean, default: false },
+    messId: { type:String, ref: 'mess', required: true }, // Reference to mess model
+    roomNo: { type: String, required: true }, // Room number field
 });
 
 // Checking if entered password by user during login is authentic

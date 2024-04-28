@@ -11,26 +11,26 @@ import { resetTemplate } from "../utils/email/template/resetPassword.js";
 //import { Resend } from "resend";
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password, isAdmin, messName } = req.body; // Change roomNo to messName
+    const { name, email, password,selectedMess, roomNo } = req.body;
 
     // Email format validation
     const emailRegex = /@mnnit\.ac\.in$/;
     if (!emailRegex.test(email)) {
-      return res.status(201).json({
+      return res.status(400).json({
         success: false,
         message: "Email must be in @mnnit.ac.in format",
       });
     }
 
-    if (!name || !email || !password || !messName) { // Change roomNo to messName
+    if (!name || !email || !password || !selectedMess || !roomNo) {
       return res.status(400).json({
         success: false,
         message: "Please enter all the required fields",
       });
     }
 
-    // Find the mess document based on the provided messName
-    const Mess = await mess.findOne({ messName });
+    // Find the mess document based on the provided selectedMess
+    const Mess = await mess.findOne({ messName: selectedMess });
 
     if (!Mess) {
       return res.status(400).json({
@@ -47,7 +47,13 @@ const registerUser = async (req, res) => {
       });
     }
 
-    const newUserDetails = { name, email, password, isAdmin, messId: Mess.messId }; // Assign the found messId
+    const newUserDetails = {
+      name,
+      email,
+      password,
+      messId: Mess.messId, // Assign the found mess ID
+      roomNo
+    };
 
     const createdUser = await UserModel.create(newUserDetails);
 
@@ -65,8 +71,8 @@ const registerUser = async (req, res) => {
         _id: createdUser._id,
         name: createdUser.name,
         email: createdUser.email,
-        isAdmin: createdUser.isAdmin,
-        messId: createdUser.messId,
+        messId: createdUser.messId, // Use mess ID instead of messId
+        roomNo: createdUser.roomNo // Include roomNo in the response
       },
     });
   } catch (error) {

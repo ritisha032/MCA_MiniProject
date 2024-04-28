@@ -26,6 +26,7 @@ import Feedback from "../Components/Dashboard/Admin Dashboard/component/Feedback
 import ComplaintAdmin from "../Components/Dashboard/Admin Dashboard/component/Complaint/ComplaintAdmin";
 import UpdateProfile from "../Components/Dashboard/Admin Dashboard/component/Profile/UpdateProfile";
 import ProfileAdmin from "../Components/Dashboard/Admin Dashboard/component/Profile/ProfileAdmin";
+import Users from "../Components/Dashboard/Admin Dashboard/Users";
 // import StudentDashboard from "../Components/Dashboard/Student Dashboard/StudentDashboard";
 const Routers = () => {
   const [userRole, setUserRole] = useState("");
@@ -73,6 +74,7 @@ const Routers = () => {
             <Route path="complaint" element={<ComplaintAdmin />} />
             <Route path="feedback" element={<Feedback />} />
             <Route path="updateprofile" element={<UpdateProfile />} />
+            <Route path="users" element={<Users/>}/>
             {/* <Route path="profile" element={<ProfileAdmin />} /> */}
             {/* <Route path="hostels" element={<Hostels />} /> */}
           </Route>
