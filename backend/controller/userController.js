@@ -246,11 +246,20 @@ const resetPassword = asyncHandler(async (req, res) => {
   return res.status(200).json({ message: "Password reset was successful" });
 });
 
-const addComplaint=async(req,res)=>{
+const addComplaint = async (req, res) => {
   try {
-    const { name, roomNumber, complaintType, complaintText } = req.body;
-  //  console.log("req ki body = ",req.body);
-    const newComplaint = new ComplaintModel({ name, roomNumber, complaintType, complaintText });
+    const { name, roomNumber, complaintType, complaintText, messId } = req.body;
+
+    // Assuming status defaults to "unresolved" and is not provided in the request body
+
+    const newComplaint = new ComplaintModel({
+      name,
+      roomNumber,
+      complaintType,
+      complaintText,
+      messId, // Add messId to the new complaint
+    });
+
     await newComplaint.save();
     res.status(201).json({ message: 'Complaint submitted successfully!' });
   } catch (error) {
@@ -258,6 +267,7 @@ const addComplaint=async(req,res)=>{
     res.status(500).json({ message: 'Server Error' });
   }
 }
+
 const addFeedback=async(req,res)=>{
   try {
     // Extract feedback data from request body

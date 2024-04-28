@@ -18,6 +18,9 @@ const Users = () => {
       
       // Set users state
       setUsers(data);
+      console.log("users ka data= ",response);      
+      const data = response.data; // Accessing the 'data' property
+      setUsers(data); // Set users state
     } catch (error) {
       console.error(error);
     }

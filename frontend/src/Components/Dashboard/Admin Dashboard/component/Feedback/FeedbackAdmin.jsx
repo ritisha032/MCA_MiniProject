@@ -1,89 +1,54 @@
-import React, { useState } from 'react';
-import { Tab, Tabs } from 'react-bootstrap';
-import Pending from './Pending';
-import Completed from './Completed';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Button } from 'react-bootstrap';
+import { useAuth } from '../../../../../context/auth';
 
-const Feedback = () => {
-  // Sample pending feedback data
-  const [pendingFeedback, setPendingFeedback] = useState([
-    {
-      name: 'John Doe',
-      rollNo: '12345',
-      feedback: 'Great class, more practical examples.fnskjbn;dskjbskjbGreat class, more practical examples.fnskjbn;dskjbskjbGreat class, more practical examples.fnskjbn;dskjbskjbGreat class, more practical examples.fnskjbn;dskjbskjb fnb h kjsbvkjdfsb but could use more practical examples.fnskjbn;dskjbskjb fnb h kjsbvkjdfsbk;jsbkjsdb kj kj jdnvjsdnbkjs ',
-      date: '2024-04-25',
-      time: '10:00 AM',
-      rating: 0,
-    },
-    {
-      name: 'Jane Smith',
-      rollNo: '67890',
-      feedback: 'The course was well-structured and informative.',
-      date: '2024-04-26',
-      time: '02:00 PM',
-      rating: 0,
-    },
-    // Add more feedback entries as needed
-  ]);
+const FeedbackAdmin = () => {
+  const [reviews, setReviews] = useState([]);
+  const [auth, setAuth] = useAuth();
+  const messId = useAuth()[0].user.messId;
 
-  // Sample completed feedback data
-  const [completedFeedback, setCompletedFeedback] = useState([
-    {
-      name: 'Alice Johnson',
-      rollNo: '11223',
-      feedback: 'Excellent course, learned a lot!',
-      dateReviewed: '2024-04-25',
-      timeReviewed: '11:00 AM',
-      rating: 5,
-    },
-    {
-      name: 'Bob Williams',
-      rollNo: '33445',
-      feedback: 'Very informative and well-paced.',
-      dateReviewed: '2024-04-26',
-      timeReviewed: '03:00 PM',
-      rating: 4.5,
-    },
-    // Add more feedback entries as needed
-  ]);
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API}/api/admin/getFeedbacks/${messId}`);
+        setReviews(response.data.feedbacks);
+      } catch (error) {
+        console.error('Error fetching reviews:', error);
+      }
+    };
 
-  // Function to handle rating changes in pending feedback
-  const handleRatingChange = (index, newRating) => {
-    const updatedFeedback = [...pendingFeedback];
-    updatedFeedback[index].rating = newRating;
-    setPendingFeedback(updatedFeedback);
-  };
+    fetchReviews();
+  }, [messId]); // Include messId in the dependency array to fetch data whenever it changes
 
-  // Function to handle marking pending feedback as reviewed
-  const handleMarkAsReviewed = (index) => {
-    // Move feedback from pending to completed
-    const feedbackToMark = pendingFeedback[index];
-    const updatedPendingFeedback = pendingFeedback.filter((_, i) => i !== index);
-    setPendingFeedback(updatedPendingFeedback);
+  const handleMarkAsRead = async (feedbackId) => {
+    try {
+      // Make a request to update the status of the feedback to 'read'
+      await axios.put(`${process.env.REACT_APP_API}/api/admin/updateFeedback/${feedbackId}`, { status: 'read' });
 
-    const updatedCompletedFeedback = [
-      ...completedFeedback,
-      {
-        ...feedbackToMark,
-        dateReviewed: new Date().toLocaleDateString(),
-        timeReviewed: new Date().toLocaleTimeString(),
-      },
-    ];
-    setCompletedFeedback(updatedCompletedFeedback);
+      // Update the reviews state to remove the feedback with the specified feedbackId
+      setReviews(reviews.filter(review => review._id !== feedbackId));
+    } catch (error) {
+      console.error('Error marking feedback as read:', error);
+    }
   };
 
   return (
     <div>
-      <h2>Feedback Page</h2>
-      <Tabs defaultActiveKey="pendingFeedback" id="feedback-tabs">
-        <Tab eventKey="pendingFeedback" title="Pending Feedback">
-          <Pending pendingFeedback={pendingFeedback} handleRatingChange={handleRatingChange} handleMarkAsReviewed={handleMarkAsReviewed} />
-        </Tab>
-        <Tab eventKey="completedFeedback" title="Completed Feedback">
-          <Completed completedFeedback={completedFeedback} />
-        </Tab>
-      </Tabs>
+      <h2>Feedback Admin</h2>
+      {reviews.map((review, index) => (
+        review.status === 'unread' && (
+          <div key={index}>
+            <h3>{review.name}</h3>
+            <p>Rating: {review.rating}</p>
+            <p>Feedback: {review.feedbackText}</p>
+            <Button variant="primary" onClick={() => handleMarkAsRead(review._id)}>Mark as Read</Button>
+            {/* Render other review details as needed */}
+          </div>
+        )
+      ))}
     </div>
   );
 };
 
-export default Feedback;
+export default FeedbackAdmin;
