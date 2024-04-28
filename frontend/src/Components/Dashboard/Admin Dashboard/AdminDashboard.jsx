@@ -101,6 +101,11 @@ function AdminDashboard() {
                                     <SupervisorAccountIcon style={{ color: '#f1c40f' }} /> Add User
                                 </NavLink>
                             </div>
+                            <div className="p-2">
+                                <NavLink to="readfeedback" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
+                                    <SupervisorAccountIcon style={{ color: '#f1c40f' }} /> Read Feedback
+                                </NavLink>
+                            </div>
                         </div>
                     </Col>
                     <Col xs={9}>
