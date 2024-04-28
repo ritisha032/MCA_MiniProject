@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerUser, authenticateUser, requestPasswordReset, resetPassword, addComplaint } from "../controller/userController.js";
+import { registerUser, authenticateUser, requestPasswordReset, resetPassword, addComplaint, addFeedback } from "../controller/userController.js";
 import { couponPurchase, couponValidity } from "../controller/couponController.js";
 import { getCouponData, getMealData, getWeekMenu } from "../controller/dataController.js";
 import { protect } from "../middleware/authMiddleware.js";
@@ -30,4 +30,5 @@ router.get("/admin-auth",protect,adminCheck,(req,res)=>{
 router.get("/user-auth",protect,(req,res)=>{
     res.status(200).send({ok:true});
 });
+router.post("/addFeedback",protect,addFeedback);
 export default router;

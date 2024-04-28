@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const {Schema} = mongoose;
+const { Schema } = mongoose;
 
 // Define feedback schema
 const feedbackSchema = new Schema({
@@ -24,6 +24,15 @@ const feedbackSchema = new Schema({
   feedbackText: {
     type: String,
     required: true
+  },
+  messId: {
+    type: String,
+    required: true
+  },
+  status: {
+    type: String,
+    enum: ['read', 'unread'],
+    default: 'unread'
   },
   createdAt: {
     type: Date,

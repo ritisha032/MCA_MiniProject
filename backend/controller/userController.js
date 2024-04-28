@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import ComplaintModel from "../models/complaint.js";
 import mess from "../models/mess.js";
+import feedbackModel from "../models/feedback.js";
 const clientURL = process.env.CLIENT_URL;
 import { resetTemplate } from "../utils/email/template/resetPassword.js";
 //import { Resend } from "resend";
@@ -257,4 +258,30 @@ const addComplaint=async(req,res)=>{
     res.status(500).json({ message: 'Server Error' });
   }
 }
-export { registerUser, authenticateUser, requestPasswordReset, resetPassword,addComplaint };
+const addFeedback=async(req,res)=>{
+  try {
+    // Extract feedback data from request body
+    const { name, email, roomNumber, rating, feedbackText, messId } = req.body;
+
+    // Create a new feedback document
+    const newFeedback = new feedbackModel({
+      name,
+      email,
+      roomNumber,
+      rating,
+      feedbackText,
+      messId
+    });
+
+    // Save the feedback to the database
+    await newFeedback.save();
+
+    // Respond with success message
+    res.status(200).json({ success: true, message: 'Feedback submitted successfully' });
+  } catch (error) {
+    // Handle errors
+    console.error('Error adding feedback:', error);
+    res.status(500).json({ success: false, message: 'Failed to submit feedback' });
+  }
+}
+export { registerUser, authenticateUser, requestPasswordReset, resetPassword,addComplaint,addFeedback};
