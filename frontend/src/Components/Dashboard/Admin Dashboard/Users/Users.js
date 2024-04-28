@@ -62,7 +62,7 @@ const Users = () => {
       <ul>
         {users.map(user => (
           <li key={user._id}>
-            {user.name}
+            {user.name} - Room No: {user.roomNo}
             <button onClick={() => handleDeleteUser(user._id)}>Delete</button>
           </li>
         ))}

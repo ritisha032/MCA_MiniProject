@@ -17,6 +17,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { toast } from "react-toastify";
 import { useAuth } from "../../../context/auth";
+import Cookies from "js-cookie";
 
 function StudentDashboard() {
     const navigate = useNavigate();  // Initialize useNavigate hook
@@ -26,6 +27,7 @@ function StudentDashboard() {
     const handleLogout = () => {
         // Perform any additional logout logic if needed, e.g., clearing session data
         localStorage.removeItem("auth");
+        Cookies.remove("token");
         setAuth({
             user: null,
             token: ""

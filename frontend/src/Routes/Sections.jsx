@@ -10,8 +10,7 @@ import AdminRoute from "./AdminRoute";
 import Reset from "../Components/Outside/ResetPassword/Reset";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth";
-import AdminPage from "../Components/Login_SignUp/AdminPage";
-import StudentPage from "../Components/Login_SignUp/StudentPage";
+
 import MessMenu from "../Components/Menu/MessMenu";
 import MyCoupon from "../Components/Coupons/MyCoupon";
 import BuyCoupon from "../Components/Coupons/BuyCoupon";
@@ -26,12 +25,13 @@ import Feedback from "../Components/Dashboard/Admin Dashboard/component/Feedback
 import ComplaintAdmin from "../Components/Dashboard/Admin Dashboard/component/Complaint/ComplaintAdmin";
 import UpdateProfile from "../Components/Dashboard/Admin Dashboard/component/Profile/UpdateProfile";
 import ProfileAdmin from "../Components/Dashboard/Admin Dashboard/component/Profile/ProfileAdmin";
-import Users from "../Components/Dashboard/Admin Dashboard/Users";
+import Users from "../Components/Dashboard/Admin Dashboard/Users/Users";
+import Adduser from "../Components/Dashboard/Admin Dashboard/Users/Adduser";
 // import StudentDashboard from "../Components/Dashboard/Student Dashboard/StudentDashboard";
 const Routers = () => {
   const [userRole, setUserRole] = useState("");
-  const navigate = useNavigate();
-  const [auth] = useAuth();
+ 
+ 
   const handleLogin = (role) => {
     setUserRole(role);
   };
@@ -75,6 +75,7 @@ const Routers = () => {
             <Route path="feedback" element={<Feedback />} />
             <Route path="updateprofile" element={<UpdateProfile />} />
             <Route path="users" element={<Users/>}/>
+            <Route path="adduser" element={<Adduser/>}/>
             {/* <Route path="profile" element={<ProfileAdmin />} /> */}
             {/* <Route path="hostels" element={<Hostels />} /> */}
           </Route>
