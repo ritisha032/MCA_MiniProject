@@ -17,9 +17,10 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'; // Import SupervisorAccountIcon
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'; 
 import { toast } from "react-toastify";
 import { useAuth } from "../../../context/auth";
+import Cookies from "js-cookie";
 
 function AdminDashboard() {
     const navigate = useNavigate();
@@ -31,6 +32,7 @@ function AdminDashboard() {
 
     const handleLogout = () => {
         localStorage.removeItem("auth");
+        Cookies.remove("token");
         setAuth({
             user: null,
             token: ""
@@ -92,6 +94,11 @@ function AdminDashboard() {
                             <div className="p-2">
                                 <NavLink to="users" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
                                     <SupervisorAccountIcon style={{ color: '#f1c40f' }} /> Users
+                                </NavLink>
+                            </div>
+                            <div className="p-2">
+                                <NavLink to="adduser" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
+                                    <SupervisorAccountIcon style={{ color: '#f1c40f' }} /> Add User
                                 </NavLink>
                             </div>
                         </div>
