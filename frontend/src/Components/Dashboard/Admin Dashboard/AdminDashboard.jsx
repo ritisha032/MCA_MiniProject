@@ -28,6 +28,9 @@ function AdminDashboard() {
     const user = localStorage.getItem("auth");
     const parsedData = JSON.parse(user);
     console.log("parsed data= ",parsedData);
+
+
+    
     
 
     const handleLogout = () => {
@@ -37,7 +40,7 @@ function AdminDashboard() {
             user: null,
             token: ""
         });
-        toast.success("LogOut Successful")
+        toast.success("Log out Successful")
         navigate('/login');
     };
 
