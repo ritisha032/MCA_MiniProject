@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Row from 'react-bootstrap/Row';
@@ -21,6 +21,14 @@ import { useAuth } from "../../../context/auth";
 function StudentDashboard() {
     const navigate = useNavigate();  // Initialize useNavigate hook
     const [auth, setAuth] = useAuth();
+    const [studentName, setStudentName] = useState("");
+
+    // Fetch the student's name from auth state
+    useEffect(() => {
+        if (auth && auth.user && auth.user.name) {
+            setStudentName(auth.user.name);
+        }
+    }, [auth]);
 
     // Function to handle logout button click
     const handleLogout = () => {
@@ -29,8 +37,8 @@ function StudentDashboard() {
         setAuth({
             user: null,
             token: ""
-          });
-        toast.success("LogOut Successful")
+        });
+        toast.success("LogOut Successful");
         navigate('/login'); // Navigate to the login page
     };
 
@@ -41,18 +49,16 @@ function StudentDashboard() {
                     <Col style={{ backgroundColor: '#34495e', height: 'auto' }}>
                         <div className='vh-100 w-100 p-3'>
                             <div className='p-2 m-auto text-center'>
-                                {/* <Image style={{ width: '50px' }} src="https://picsum.photos/200" roundedCircle /> */}
-                                    <AccountCircleIcon style={{ color: 'white',fontSize:'100px'}} /> 
-                                
+                                <AccountCircleIcon style={{ color: 'white', fontSize: '100px' }} />
                             </div>
                             <div className="p-2">
                                 <NavLink to="profile" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
-                                    <Person2Icon style={{ color: '#f1c40f'}} /> Profile
+                                    <Person2Icon style={{ color: '#f1c40f' }} /> Profile
                                 </NavLink>
                             </div>
                             <div className="p-2">
                                 <NavLink to="messmenu" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
-                                    <FastfoodIcon style={{ color: '#f1c40f'}} /> Mess Menu
+                                    <FastfoodIcon style={{ color: '#f1c40f' }} /> Mess Menu
                                 </NavLink>
                             </div>
                             <div className="p-2">
@@ -72,16 +78,16 @@ function StudentDashboard() {
                             </div>
                             <div className="p-2">
                                 <NavLink to="feedback" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
-                                    <FeedbackIcon style={{ color: '#f1c40f' }} /> Feeback
+                                    <FeedbackIcon style={{ color: '#f1c40f' }} /> Feedback
                                 </NavLink>
                             </div>
-                            
                         </div>
                     </Col>
                     <Col xs={9}>
                         <Navbar expand="lg" className="bg-body-tertiary">
                             <Container>
-                                <Navbar.Brand href="#home">Welcome Student</Navbar.Brand>
+                                {/* Displaying student's name */}
+                                <Navbar.Brand>Welcome, {studentName}</Navbar.Brand>
                                 <Stack direction="horizontal" gap={3}>
                                     <div className="p-2 ms-auto">
                                         <Button

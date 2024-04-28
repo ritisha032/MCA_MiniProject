@@ -42,7 +42,7 @@ function AdminDashboard() {
     return (
         <>
             <Container fluid style={{ height: '100%' }}>
-                {parsedData.messName} Hostel Admin
+                
                 <Row>
                     <Col style={{ backgroundColor: '#34495e', height: 'auto' }}>
                         <div className='vh-100 w-100 p-3'>
@@ -99,7 +99,7 @@ function AdminDashboard() {
                     <Col xs={9}>
                         <Navbar expand="lg" className="bg-body-tertiary">
                             <Container>
-                                <Navbar.Brand href="#home">Welcome Admin</Navbar.Brand>
+                                <Navbar.Brand href="#home">{parsedData.messName} Hostel Admin</Navbar.Brand>
                                 <Stack direction="horizontal" gap={3}>
                                     <div className="p-2 ms-auto">
                                         <Button

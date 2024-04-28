@@ -37,7 +37,7 @@ function StudentProfile() {
                                Hello {studentName}
                             </Card.Title>
                             <Card.Text style={{ fontSize: '1.5rem', textAlign: 'center' }}>
-                               HostelName {hostelName}
+                               HostelName: {hostelName}
                             </Card.Text>
                         </Card.Body>
                     </Card>
