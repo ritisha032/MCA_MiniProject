@@ -30,6 +30,8 @@ import CompletedComplaints from "../Components/Dashboard/Admin Dashboard/compone
 import Forgot from "../Components/Outside/ResetPassword/Forgot";
 import Reset from "../Components/Outside/ResetPassword/Reset";
 import EditProfile from "../Components/Dashboard/Student Dashboard/component/EditProfile";
+import About from "../Components/Outside/About Us/About";
+import NotPageFound from "./NotPageFound";
 
 // import StudentDashboard from "../Components/Dashboard/Student Dashboard/StudentDashboard";
 const Routers = () => {
@@ -43,12 +45,14 @@ const Routers = () => {
   return (
     <>
       <Routes>
+   
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Landing />} />
         <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
 
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/about-us" element={<About />} />
         <Route path="/forgot-password" element={<Forgot/>}/>
         <Route path="/reset-password/:userId/:userToken" element={<Reset/>}/>
      
@@ -87,6 +91,7 @@ const Routers = () => {
             {/* <Route path="hostels" element={<Hostels />} /> */}
           </Route>
         </Route>
+        <Route path="*" element={<NotPageFound />} />
       </Routes>
     </>
   );

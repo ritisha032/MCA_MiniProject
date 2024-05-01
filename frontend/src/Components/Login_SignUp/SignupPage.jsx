@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Footer from "../Outside/Footer/Footer";
+import Navbar from '../Outside/Navbar/Navbar';
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -61,6 +62,7 @@ const SignupPage = () => {
 
   return (
     <div className="wholepage">
+      {/* <Navbar/> */}
       <div className="signup-container">
         <form onSubmit={handleSubmit} className='form-container'>
           <h2>Sign Up</h2>
