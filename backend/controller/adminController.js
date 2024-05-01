@@ -1,10 +1,10 @@
-import { Day } from "../models/day.js";
-import { Meal } from "../models/meal.js";
+import  Day from "../models/day.js";
+import Meal from "../models/meal.js";
 import Coupon from "../models/coupon.js";
-import userModel from "../models/user.js";
-import mess from "../models/mess.js";
-import feedbackModel from "../models/feedback.js";
-import complaintModel from "../models/complaint.js";
+import User from "../models/user.js"; // Capitalized model name
+import Mess from "../models/mess.js"; // Capitalized model name
+import Feedback from "../models/feedback.js"; // Capitalized model name
+import Complaint from "../models/complaint.js"; // Capitalized model name
 
 const setMealCostTime = async (req, res) => {
   const data = req.body;
@@ -27,8 +27,8 @@ const getUsers = async (req, res) => {
   const { messName } = req.params;
   console.log(req.params);
 
-  // Assuming you have a model named 'messModel'
-  mess
+  // Assuming you have a model named 'Mess'
+  Mess
     .findOne({ messName: messName }) // Find the mess with the provided name
     .then((mess) => {
       if (!mess) {
@@ -38,7 +38,7 @@ const getUsers = async (req, res) => {
       const messID = mess.messId;
 
       // Now fetch users based on messID
-      userModel
+      User
         .find({ messId: messID, isAdmin: false }) // Find users with the specific messId and isAdmin set to false
         .then((users) => {
           res.json(users);
@@ -53,12 +53,13 @@ const getUsers = async (req, res) => {
       res.status(500).json({ error: "Internal Server Error" });
     });
 };
+
 const deleteUser = async (req, res) => {
   const userId = req.params.userId;
 
   try {
     // Find the user by ID and delete it
-    const deletedUser = await userModel.findByIdAndDelete(userId);
+    const deletedUser = await User.findByIdAndDelete(userId);
 
     if (!deletedUser) {
       return res
@@ -78,21 +79,23 @@ const deleteUser = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-const getFeedbacks=async(req,res)=>{
+
+const getFeedbacks = async (req, res) => {
   try {
     const { messId } = req.params;
-    const feedbacks = await feedbackModel.find({ messId });
+    const feedbacks = await Feedback.find({ messId });
     res.status(200).json({ success: true, feedbacks });
   } catch (error) {
     console.error('Error getting feedbacks:', error);
     res.status(500).json({ success: false, message: 'Failed to get feedbacks' });
   }
 }
-const updateFeedback=async(req,res)=>{
+
+const updateFeedback = async (req, res) => {
   const { userId } = req.params;
   try {
     // Find the feedback by ID and update its status to 'read'
-    const feedback = await feedbackModel.findByIdAndUpdate(userId, { status: 'read' }, { new: true });
+    const feedback = await Feedback.findByIdAndUpdate(userId, { status: 'read' }, { new: true });
 
     if (!feedback) {
       return res.status(404).json({ message: 'Feedback not found' });
@@ -105,10 +108,11 @@ const updateFeedback=async(req,res)=>{
     res.status(500).json({ message: 'Internal server error' });
   }
 }
+
 const getComplaints = async (req, res) => {
   try {
     const { messId } = req.params;
-    const complaints = await complaintModel.find({ messId });
+    const complaints = await Complaint.find({ messId });
     res.status(200).json({ success: true, complaints });
   } catch (error) {
     console.error('Error getting complaints:', error);
@@ -120,7 +124,7 @@ const updateComplaint = async (req, res) => {
   const { complaintId } = req.params;
   try {
     // Find the complaint by ID and update its status to 'resolved'
-    const complaint = await complaintModel.findByIdAndUpdate(complaintId, { status: 'resolved' }, { new: true });
+    const complaint = await Complaint.findByIdAndUpdate(complaintId, { status: 'resolved' }, { new: true });
 
     if (!complaint) {
       return res.status(404).json({ message: 'Complaint not found' });
@@ -134,4 +138,4 @@ const updateComplaint = async (req, res) => {
   }
 }
 
-export { setMealCostTime, setMenu, getUsers, deleteUser,getFeedbacks,updateFeedback,getComplaints,updateComplaint};
+export { setMealCostTime, setMenu, getUsers, deleteUser, getFeedbacks, updateFeedback, getComplaints, updateComplaint };

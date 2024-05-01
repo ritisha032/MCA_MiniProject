@@ -9,4 +9,4 @@ const daySchema = new Schema({
 },{versionKey: false});
 
 const Day = mongoose.model('Day', daySchema) 
-export {Day};
+export default Day;

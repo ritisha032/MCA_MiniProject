@@ -23,5 +23,5 @@ const messSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const mess = mongoose.model('mess', messSchema);
-export default mess;
+const Mess = mongoose.model('mess', messSchema);
+export default Mess;

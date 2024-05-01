@@ -10,6 +10,11 @@ const userSchema = new Schema({
     isAdmin: { type: Boolean, default: false },
     messId: { type:String, ref: 'mess', required: true }, // Reference to mess model
     roomNo: { type: String, required: true }, // Room number field
+    additionalDetails: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "Profile",
+    },
 });
 
 // Checking if entered password by user during login is authentic
@@ -32,5 +37,5 @@ userSchema.pre("save", async function (next) {
     next();
 });
 
-const userModel = mongoose.model('user', userSchema);
-export default userModel;
+const User = mongoose.model('user', userSchema);
+export default User;

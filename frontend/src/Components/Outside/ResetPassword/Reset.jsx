@@ -1,57 +1,121 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './style.css'; // Import CSS file for styling
+import React, { useState } from "react";
+import {useNavigate } from "react-router-dom";
+import axios from "axios";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import LockResetIcon from "@mui/icons-material/LockReset";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { Card, CardContent } from "@mui/material";
+import { toast } from "react-toastify";
+import { useParams } from 'react-router-dom';
 
 const Reset = () => {
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
 
-  // Regular expression for email validation
-  const validateEmail = (email) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
+  let navigate = useNavigate();
+  const { userId, userToken } = useParams();
+  console.log("üserId= ",userId,"userToken= ",userToken);
+
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleNewPasswordChange = (e) => {
+    setNewPassword(e.target.value);
   };
 
-  const handleInputChange = (e) => {
-    setEmail(e.target.value);
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Check if the email format is valid
-    if (validateEmail(email)) {
-      // Simulate sending a password reset link
-      setMessage(`Password reset link has been sent to ${email}`);
-      // Clear the email input
-      setEmail('');
+    if (newPassword !== confirmPassword) {
+      toast.error("Passwords don't match", {
+        autoClose: 5000,
+        position: "top-right",
+      });
     } else {
-      // If the email format is invalid, display an error message
-      setMessage('Please enter a valid email address');
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_API}/api/password/${userId}/${userToken}`,
+          {
+            password: newPassword,
+          }
+        );
+        console.log("response= ", response);
+        toast.success(response.data.message, {
+          autoClose: 5000,
+          position: "top-right",
+        });
+        navigate("/login");
+      } catch (error) {
+        console.error("Error:", error);
+        toast.error("An error occurred. Please try again later.", {
+          autoClose: 5000,
+          position: "top-right",
+        });
+      }
     }
   };
 
   return (
-    <div className='wholepage'>   
-        <div className="forgot-password-container">
-          <h2>Forgot Password</h2>
-          <form onSubmit={handleSubmit}>
-            <label>
-              Email:
-              <input type="email" value={email} onChange={handleInputChange} />
-            </label>
-            <button type="submit">Reset Password</button>
-          </form>
-          {/* Display Bootstrap alert if message is not empty */}
-          {message && (
-            <div className="alert alert-success" role="alert">
-              {message}
-            </div>
-          )}
-          <p>
-            Remember your password? <Link to="/login">Login</Link>
-          </p>
-        </div>
-    </div>
+    <Container maxWidth="sm">
+      <Box
+        sx={{
+          marginTop: 10,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Card sx={{ boxShadow: "4" }}>
+          <CardContent sx={{ m: 3 }}>
+            <Avatar sx={{ m: "auto", bgcolor: "primary.main" }}>
+              <LockResetIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5" sx={{ mt: 1 }}>
+              Reset Password
+            </Typography>
+
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                type="password"
+                name="newpassword"
+                id="newpassword"
+                label="New Password"
+                autoFocus
+                value={newPassword}
+                onChange={handleNewPasswordChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                type="password"
+                name="confirmpassword"
+                id="confirmpassword"
+                label="Confirm Password"
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Submit
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
+      </Box>
+    </Container>
   );
 };
 

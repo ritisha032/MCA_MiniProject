@@ -7,11 +7,13 @@ const FeedbackAdmin = () => {
   const [reviews, setReviews] = useState([]);
   const [auth, setAuth] = useAuth();
   const messId = useAuth()[0].user.messId;
+  console.log("mess id= ",messId);
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_API}/api/admin/getFeedbacks/${messId}`);
+        console.log("feedback response= ",response);
         setReviews(response.data.feedbacks);
       } catch (error) {
         console.error('Error fetching reviews:', error);

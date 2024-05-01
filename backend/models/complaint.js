@@ -17,6 +17,6 @@ const complaintSchema = new mongoose.Schema({
     }
 });
 
-const complaintModel = mongoose.model('Complaint', complaintSchema);
+const Complaint = mongoose.model('Complaint', complaintSchema);
 
-export default complaintModel;
+export default Complaint;

@@ -7,9 +7,7 @@ import Contact from "../Components/Outside/Contact/Contact";
 import AdminDashboard from "../Components/Dashboard/Admin Dashboard/AdminDashboard";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
-import Reset from "../Components/Outside/ResetPassword/Reset";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/auth";
+
 
 import MessMenu from "../Components/Menu/MessMenu";
 import MyCoupon from "../Components/Coupons/MyCoupon";
@@ -29,6 +27,9 @@ import Users from "../Components/Dashboard/Admin Dashboard/Users/Users";
 import Adduser from "../Components/Dashboard/Admin Dashboard/Users/Adduser";
 import ReadFeedbacks from "../Components/Dashboard/Admin Dashboard/component/Feedback/ReadFeedbacks";
 import CompletedComplaints from "../Components/Dashboard/Admin Dashboard/component/Complaint/CompletedComplaint"
+import Forgot from "../Components/Outside/ResetPassword/Forgot";
+import Reset from "../Components/Outside/ResetPassword/Reset";
+
 // import StudentDashboard from "../Components/Dashboard/Student Dashboard/StudentDashboard";
 const Routers = () => {
   const [userRole, setUserRole] = useState("");
@@ -47,8 +48,9 @@ const Routers = () => {
 
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/forgot-password" element={<Reset />} />
-
+        <Route path="/forgot-password" element={<Forgot/>}/>
+        <Route path="/reset-password/:userId/:userToken" element={<Reset/>}/>
+     
         <Route path="/dashboard" element={<PrivateRoute />}>
           {/* <Route path="student" element={<StudentDashboard/>} /> */}
           <Route path="student" element={<StudentDash />}>
@@ -70,8 +72,7 @@ const Routers = () => {
             <Route path="" element={<ProfileAdmin />} />{" "}
             {/* Corrected closing angle bracket */}
             <Route path="changemenu" element={<UpdateMenu />} />
-            <Route path="mycoupons" element={<MyCoupon />} />
-            <Route path="buycoupon" element={<BuyCoupon />} />
+           
             {/* <Route path="hostels" element={<Hostels />} /> */}
             <Route path="complaint" element={<ComplaintAdmin />} />
             <Route path="feedback" element={<Feedback />} />
