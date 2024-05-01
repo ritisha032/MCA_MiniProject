@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Button } from 'react-bootstrap';
+import { Button, Card, Row, Col } from 'react-bootstrap';
 import { useAuth } from '../../../../../context/auth';
 
 const FeedbackAdmin = () => {
@@ -19,7 +19,7 @@ const FeedbackAdmin = () => {
     };
 
     fetchReviews();
-  }, [messId]); // Include messId in the dependency array to fetch data whenever it changes
+  }, [messId]);
 
   const handleMarkAsRead = async (feedbackId) => {
     try {
@@ -36,17 +36,29 @@ const FeedbackAdmin = () => {
   return (
     <div>
       <h2>Feedback Admin</h2>
-      {reviews.map((review, index) => (
-        review.status === 'unread' && (
-          <div key={index}>
-            <h3>{review.name}</h3>
-            <p>Rating: {review.rating}</p>
-            <p>Feedback: {review.feedbackText}</p>
-            <Button variant="primary" onClick={() => handleMarkAsRead(review._id)}>Mark as Read</Button>
-            {/* Render other review details as needed */}
-          </div>
-        )
-      ))}
+      <Row>
+        {reviews.map((review, index) => (
+          review.status === 'unread' && (
+            <Col md={4} key={index} className="mb-4">
+              <Card>
+                <Card.Header as="h5">{review.name}</Card.Header>
+                <Card.Body>
+                  <Card.Text>
+                    <strong>Room Number:</strong> {review.roomNo}
+                  </Card.Text>
+                  <Card.Text>
+                    <strong>Rating:</strong> {review.rating}
+                  </Card.Text>
+                  <Card.Text>
+                    <strong>Feedback:</strong> {review.feedbackText}
+                  </Card.Text>
+                  <Button variant="primary" onClick={() => handleMarkAsRead(review._id)}>Mark as Read</Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          )
+        ))}
+      </Row>
     </div>
   );
 };

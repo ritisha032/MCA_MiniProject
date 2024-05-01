@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from "../../../../../context/auth";
+import { Row, Col, Card, Button } from 'react-bootstrap';
 
 const ComplaintAdmin = () => {
   const [complaints, setComplaints] = useState([]);
-  const user = useAuth()[0].user; // Assuming useAuth() returns [user, setUser]
+  const user = useAuth()[0].user;
 
   useEffect(() => {
     const fetchComplaints = async () => {
@@ -12,7 +13,7 @@ const ComplaintAdmin = () => {
         const response = await axios.get(`${process.env.REACT_APP_API}/api/admin/getComplaints/${user.messId}`);
         setComplaints(response.data.complaints);
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching complaints:', error);
         // Handle error (e.g., show error message)
       }
     };
@@ -24,31 +25,40 @@ const ComplaintAdmin = () => {
 
   const markAsResolved = async (complaintId) => {
     try {
-     const response= await axios.put(`${process.env.REACT_APP_API}/api/admin/updateComplaint/${complaintId}`, { status: 'resolved' });
-     const updatedComplaints = complaints.filter(complaint => complaint._id !== complaintId);
-    setComplaints(updatedComplaints);
+      await axios.put(`${process.env.REACT_APP_API}/api/admin/updateComplaint/${complaintId}`, { status: 'resolved' });
+      // Update the state to remove the resolved complaint
+      setComplaints(complaints.filter(complaint => complaint._id !== complaintId));
     } catch (error) {
-      console.error(error);
+      console.error('Error marking complaint as resolved:', error);
       // Handle error (e.g., show error message)
     }
   };
 
   return (
-    <div>
-      <h2>Complaints Admin</h2>
-      {complaints.map(complaint => (
-        <div key={complaint._id}>
-          <p>
-            <strong>Name:</strong> {complaint.name}<br />
-            <strong>Room No:</strong> {complaint.roomNumber}<br />
-            <strong>Type:</strong> {complaint.complaintType}<br />
-            <strong>Complaint:</strong> {complaint.complaintText}
-          </p>
-          {complaint.status === 'unresolved' && (
-            <button onClick={() => markAsResolved(complaint._id)}>Mark as Resolved</button>
-          )}
-        </div>
-      ))}
+    <div className="container">
+      <h2 className="my-4">Complaints Admin</h2>
+      
+      <Row>
+        {complaints.map((complaint) => (
+          <Col md={4} key={complaint._id} className="mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title>{complaint.name}</Card.Title>
+                <Card.Text>
+                  <strong>Room No:</strong> {complaint.roomNumber}<br />
+                  <strong>Type:</strong> {complaint.complaintType}<br />
+                  <strong>Complaint:</strong> {complaint.complaintText}
+                </Card.Text>
+                {complaint.status === 'unresolved' && (
+                  <Button variant="success" onClick={() => markAsResolved(complaint._id)}>
+                    Mark as Resolved
+                  </Button>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
     </div>
   );
 };

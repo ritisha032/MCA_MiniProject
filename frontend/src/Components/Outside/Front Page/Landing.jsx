@@ -13,6 +13,8 @@ const Landing = () => {
   }, []);
 
   return (
+    <>
+    
     <div className="background-image">
       <div className="welcome-text">Welcome</div>
       <div className="image-container">
@@ -22,8 +24,9 @@ const Landing = () => {
         <Link to="/contact"><button className="button">Contact</button></Link>
         <Link to="/login"><button className="button">Login</button></Link>
       </div>
-      <Footer/>
     </div>
+      <Footer/>
+    </>
   );
 }
 

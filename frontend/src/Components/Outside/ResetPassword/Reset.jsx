@@ -31,24 +31,26 @@ const Reset = () => {
   };
 
   return (
-    <div className="forgot-password-container">
-      <h2>Forgot Password</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email:
-          <input type="email" value={email} onChange={handleInputChange} />
-        </label>
-        <button type="submit">Reset Password</button>
-      </form>
-      {/* Display Bootstrap alert if message is not empty */}
-      {message && (
-        <div className="alert alert-success" role="alert">
-          {message}
+    <div className='wholepage'>   
+        <div className="forgot-password-container">
+          <h2>Forgot Password</h2>
+          <form onSubmit={handleSubmit}>
+            <label>
+              Email:
+              <input type="email" value={email} onChange={handleInputChange} />
+            </label>
+            <button type="submit">Reset Password</button>
+          </form>
+          {/* Display Bootstrap alert if message is not empty */}
+          {message && (
+            <div className="alert alert-success" role="alert">
+              {message}
+            </div>
+          )}
+          <p>
+            Remember your password? <Link to="/login">Login</Link>
+          </p>
         </div>
-      )}
-      <p>
-        Remember your password? <Link to="/login">Login</Link>
-      </p>
     </div>
   );
 };

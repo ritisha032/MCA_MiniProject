@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import { Container } from "@mui/material";
 import './index.css'
+import { Button } from "react-bootstrap";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const LoginPage = () => {
         `${process.env.REACT_APP_API}/api/user/login`,
         formData
       );
-      console.log("res= ",res.data.token);
+      console.log("res= ", res.data.token);
       if (res && res.data.success) {
         toast.success(res.data.message);
         setAuth({
@@ -46,7 +47,7 @@ const LoginPage = () => {
           navigate('/');
         }
       } else {
-        console.log("res ka data= ",res);
+        console.log("res ka data= ", res);
         toast.warning(res.data.message);
       }
     } catch (error) {
@@ -57,30 +58,30 @@ const LoginPage = () => {
 
   return (
     <div className="wholepage">
-    <div className="login-container">
-      <h2>Login Page</h2>
-      <label>
-        Email:
-        <input type="text" name="email" onChange={handleInputChange} />
-      </label>
+      <div className="login-container">
+        <h2>Login Page</h2>
+        <label>
+          Email:
+          <input type="text" name="email" onChange={handleInputChange} />
+        </label>
 
-      <label>
-        Password:
-        <input type="password" name="password" onChange={handleInputChange} />
-      </label>
+        <label>
+          Password:
+          <input type="password" name="password" onChange={handleInputChange} />
+        </label>
 
-      <button onClick={handleLogin}>Login</button>
+        <button onClick={handleLogin}>Login</button>
 
-      <p>
-        <Link to="/forgot-password">Forgot Password or email?</Link>
-      </p>
+        <p>
+          <Link to="/forgot-password">Forgot Password or email?</Link>
+        </p>
 
-      <p>
-        Don't have an account? <Link to="/signup">Sign up</Link>
-      </p>
+        <p>
+          Don't have an account? <Link to="/signup">Sign up</Link>
+        </p>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
     </div>
   );
 };
