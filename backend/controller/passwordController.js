@@ -2,6 +2,7 @@ import User from "../models/user.js";
 import Token from "../models/token.js";
 import crypto from "crypto";
 import mailSender from "../utils/mailSender.js";
+import mongoose from "mongoose";
 
 const forgotPassword = async (req, res) => {
     try {
@@ -25,7 +26,7 @@ const forgotPassword = async (req, res) => {
             }).save();
         }
 
-        const link = `${process.env.BASE_URL}/password-reset/${userObject._id}/${token.token}`;
+        const link = `Link to reset password:`+ `${process.env.CLIENT_URL}/reset-password/${userObject._id}/${token.token}`;
         await mailSender(userObject.email, "Password reset", link); // Use userObject.email instead of user.email
 
         res.send("Password reset link sent to your email account");
@@ -34,5 +35,35 @@ const forgotPassword = async (req, res) => {
         res.status(500).send("An error occurred");
     }
 }
+const resetPassword = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+        if (!user) return res.status(400).json({success:false,message:"Invalid link or expired"});
 
-export { forgotPassword };
+        // Find the latest token for the user
+        const token = await Token.findOne({
+            userId: user._id,
+        }).sort({ createdAt: -1 });
+
+        if (!token || token.token !== req.params.userToken) {
+            return res.status(400).json({success:false,message:"Invalid link or expired"});
+        }
+
+        // Hash the new password
+       
+        // Save the new password
+        user.password = req.body.password;
+        await user.save();
+
+        // Delete the token
+       // await token.delete();
+
+        res.status(201).json({success:true,message:"Password reset successfully"});
+
+    } catch (error) {
+        res.status(500).send({success:false,message:"An error occurred"});
+        console.error(error);
+    }
+}
+
+export { forgotPassword,resetPassword};

@@ -74,16 +74,8 @@ function AdminDashboard() {
                                     <FastfoodIcon style={{ color: '#f1c40f' }} /> Update Menu
                                 </NavLink>
                             </div>
-                            <div className="p-2">
-                                <NavLink to="mycoupons" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
-                                    <ShoppingBagIcon style={{ color: '#f1c40f' }} /> My Coupons
-                                </NavLink>
-                            </div>
-                            <div className="p-2">
-                                <NavLink to="buycoupon" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
-                                    <BookOnlineIcon style={{ color: '#f1c40f' }} /> Buy Coupons
-                                </NavLink>
-                            </div>
+                           
+                           
                             <div className="p-2">
                                 <NavLink to="complaint" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
                                     <ArchiveIcon style={{ color: '#f1c40f' }} /> Complaint
