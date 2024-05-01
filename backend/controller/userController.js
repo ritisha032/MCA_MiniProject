@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 import Complaint from "../models/complaint.js";
 import Mess from "../models/mess.js";
 import Feedback from "../models/feedback.js";
+import Profile from "../models/profile.js";
 const clientURL = process.env.CLIENT_URL;
 
 const registerUser = async (req, res) => {
@@ -46,13 +47,21 @@ const registerUser = async (req, res) => {
         message: "User already exists",
       });
     }
+    const profileDetails = await Profile.create({
+			gender: null,
+			dateOfBirth: null,
+			about: null,
+			contactNumber: null,
+      image: `https://api.dicebear.com/5.x/initials/svg?seed=${name}`,
+		});
 
     const newUserDetails = {
       name,
       email,
       password,
       messId: messDocument.messId,
-      roomNo
+      roomNo,
+      additionalDetails:profileDetails._id
     };
 
     const createdUser = await User.create(newUserDetails);
@@ -72,7 +81,8 @@ const registerUser = async (req, res) => {
         name: createdUser.name,
         email: createdUser.email,
         messId: createdUser.messId,
-        roomNo: createdUser.roomNo
+        roomNo: createdUser.roomNo,
+        profile:createdUser.additionalDetails
       },
     });
   } catch (error) {
