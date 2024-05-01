@@ -168,6 +168,7 @@ navigate("/login");
           </Card>
         </Col>
       </Row>
+      
       <Row className="justify-content-center mt-4">
         <Col md={6}>
           <Card>

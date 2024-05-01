@@ -29,6 +29,7 @@ import ReadFeedbacks from "../Components/Dashboard/Admin Dashboard/component/Fee
 import CompletedComplaints from "../Components/Dashboard/Admin Dashboard/component/Complaint/CompletedComplaint"
 import Forgot from "../Components/Outside/ResetPassword/Forgot";
 import Reset from "../Components/Outside/ResetPassword/Reset";
+import EditProfile from "../Components/Dashboard/Student Dashboard/component/EditProfile";
 
 // import StudentDashboard from "../Components/Dashboard/Student Dashboard/StudentDashboard";
 const Routers = () => {
@@ -63,6 +64,7 @@ const Routers = () => {
             <Route path="complaint" element={<Complaint />} />
             <Route path="feedback" element={<FeedbackForm />} />
             <Route path="profile" element={<ShowProfile />} />
+            <Route path="edit-profile" element={<EditProfile />} />
           </Route>
         </Route>
 

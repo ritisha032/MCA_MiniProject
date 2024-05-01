@@ -59,6 +59,11 @@ function StudentDashboard() {
                                 </NavLink>
                             </div>
                             <div className="p-2">
+                                <NavLink to="edit-profile" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
+                                    <Person2Icon style={{ color: '#f1c40f' }} /> Edit Profile
+                                </NavLink>
+                            </div>
+                            <div className="p-2">
                                 <NavLink to="messmenu" style={({ isActive }) => (isActive ? { color: "#ecf0f1" } : {})}>
                                     <FastfoodIcon style={{ color: '#f1c40f' }} /> Mess Menu
                                 </NavLink>
