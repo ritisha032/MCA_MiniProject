@@ -19,7 +19,7 @@ const Landing = () => {
         {/* <img src={image} alt="Your Image" className="landing-image" /> */}
       </div>
       <div className="button-container">
-        <Link to="/contact"><button className="button">Contact</button></Link>
+        <Link to="/signup"><button className="button">SignUp</button></Link>
         <Link to="/login"><button className="button">Login</button></Link>
       </div>
       <Footer/>
