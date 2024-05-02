@@ -11,16 +11,34 @@
   /* transition: opacity 1s ease; */
 /* } */
 
-.wholepage {
+.whole {
   height: 100vh;
-  width: 100vw;
+  width: 100%;
+  background-image: url("burger.jpg");
+  background-size: cover;
+  background-attachment: fixed; /* Keeps the background image static even when scrolled */
+  
+}
+
+
+.whole-signup {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-image: url("burger.jpg");
+  background-size: cover;
+  /* background-position: center; */
+  background-attachment: fixed; /* Keeps the background image static even when scrolled */
+}
+
+.wholepage {
+  height: 100%;
+  width: 100%;
   justify-content: center;
   display: flex;
   align-items: center;
-  background-image: url("burger.jpg");
-  background-size: cover;
   /* Cover the entire container */
-  background-position: center;
 }
 
 .background-image.fade-out {
@@ -81,6 +99,17 @@ label {
   border-radius: 5px;
 }
 
+/* Keyframes for fade-in effect */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+
+/* Style for the login container */
 .login-container {
   max-width: 400px;
   margin: 0 auto;
@@ -89,7 +118,12 @@ label {
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: rgba(255, 255, 255, 0.8);
+  margin-top: 40px;
+
+  /* Apply the fade-in animation */
+  animation: fadeIn 0.5s ease-in;
 }
+
 
 .container {
   background-color: rgba(255, 255, 255, 0.8);
@@ -144,6 +178,10 @@ a:hover {
 
 .error-message {
   color: red;
+}
+
+.mt-5{
+  width: 700px; 
 }
 
 

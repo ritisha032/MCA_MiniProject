@@ -61,8 +61,8 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="wholepage">
-      {/* <Navbar/> */}
+    <div className="whole-signup">
+      <Navbar/>
       <div className="signup-container">
         <form onSubmit={handleSubmit} className='form-container'>
           <h2>Sign Up</h2>
@@ -136,7 +136,7 @@ const SignupPage = () => {
         </form>
 
         {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <Footer />
+        {/* <Footer /> */}
       </div>
       {/* Add CSS in the component itself */}
       <style jsx>{`
@@ -148,6 +148,16 @@ const SignupPage = () => {
           align-items: center; /* Center items within the container */
           min-height: 80vh; /* Reduced height for the container */
           padding: 20px; /* Adjust padding as needed */
+          animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+          from {
+              opacity: 0;
+          }
+          to {
+              opacity: 1;
+          }
         }
       
         .form-container {

@@ -1,75 +1,102 @@
 import React from 'react';
+import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import Navbar from '../Navbar/Navbar';
+import Footer from '../Footer/Footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// Import the background image
-import backgroundImage from './ab.jpg';
-import image from './images.jpg';
-
-const teamMembers = [
-    {
-        name: 'Ritisha Singh',
-        description: 'MCA 2nd year',
-        contact: '+1 123 456 7890',
-        email: 'ritisha@gmail.com',
-        profilePic: `${image}`, // Random profile picture URL
-    },
-    {
-        name: 'Rohith T R',
-        description: 'MCA 2nd year',
-        contact: '+1 123 456 7890',
-        email: 'rohith@gmail.com',
-        profilePic: `${image}`, // Random profile picture URL
-    },
-    {
-        name: 'Pulkit Rajput',
-        description: 'MCA 2nd year',
-        contact: '+1 123 456 7890',
-        email: 'pulkit@gmail.com',
-        profilePic: `${image}`, // Random profile picture URL
-    },
-    
-    // Add more team members here...
-];
-
-function AboutUs() {
-    // Define inline styles for the container
-    const containerStyle = {
-        // backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        padding: '10px', // Adjust padding as needed
-        
+const About = () => {
+    // Define inline styles for layout and components
+    const aboutPageStyle = {
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
     };
 
-    const whole={
-        height: '100vh',
-        width: '100vw',
-    }
+    const aboutContentStyle = {
+        flex: 1,
+        padding: '20px',
+        backgroundColor: '#f5f5f5',
+    };
+
+    const cardStyle = {
+        boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+        borderRadius: '5px',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        marginBottom: '20px',
+    };
+
+    const cardButtonStyle = {
+        backgroundColor: 'blue',
+        color: 'white',
+    };
 
     return (
-        <div className='wholepage'>
-        
-                <div className="container mt-5" style={containerStyle}>
-                    <h2 className="mb-4">About Us</h2>
-                    <div className="row">
-                        {teamMembers.map((member, index) => (
-                            <div key={index} className="col-md-4 mb-4">
-                                <div className="card">
-                                    <img src={member.profilePic} className="card-img-top" alt={`${member.name}'s profile`} />
-                                    <div className="card-body">
-                                        <h5 className="card-title">{member.name}</h5>
-                                        <p className="card-text">{member.description}</p>
-                                        <p className="card-text"><strong>Contact:</strong> {member.contact}</p>
-                                        <p className="card-text"><strong>Email:</strong> <a href={`mailto:${member.email}`}>{member.email}</a></p>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+        <div style={aboutPageStyle}>
+            <Navbar />
+            <div style={aboutContentStyle}>
+                <Container className="mt-5">
+                    <h1>About Us</h1>
+                    <p>
+                        Welcome to MNNIT's Mess Management. Our goal is to provide students with healthy, nutritious, and affordable meals. We take pride in offering a variety of options to cater to different tastes and dietary requirements.
+                    </p>
+                    <p>
+                        At MNNIT, we strive to maintain a high standard of hygiene and quality in our mess facilities. Our dedicated team works diligently to ensure that meals are prepared fresh and served with care. We value student feedback and continuously improve our services based on suggestions and recommendations.
+                    </p>
+                    <p>
+                        We understand the importance of a well-balanced diet for students' well-being and academic performance. That's why we work hard to create a comfortable dining experience that meets the needs of all students.
+                    </p>
+
+                    {/* Scroll down to contact cards */}
+                    <h2 className="mt-5">Contact Us</h2>
+                    <Row>
+                        <Col md={4}>
+                            <Card style={cardStyle}>
+                                <Card.Body>
+                                    <Card.Title>Ritisha Singh</Card.Title>
+                                    <Card.Text>
+                                        Position: Mess Manager
+                                    </Card.Text>
+                                    <Card.Text>
+                                        Email: ritisha@example.com
+                                    </Card.Text>
+                                    <Button style={cardButtonStyle}>Contact</Button>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                        <Col md={4}>
+                            <Card style={cardStyle}>
+                                <Card.Body>
+                                    <Card.Title>Rohith T R</Card.Title>
+                                    <Card.Text>
+                                        Position: Assistant Manager
+                                    </Card.Text>
+                                    <Card.Text>
+                                        Email: rohith@example.com
+                                    </Card.Text>
+                                    <Button style={cardButtonStyle}>Contact</Button>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                        <Col md={4}>
+                            <Card style={cardStyle}>
+                                <Card.Body>
+                                    <Card.Title>Pulkit Rajput</Card.Title>
+                                    <Card.Text>
+                                        Position: Chef
+                                    </Card.Text>
+                                    <Card.Text>
+                                        Email: pulkit@example.com
+                                    </Card.Text>
+                                    <Button style={cardButtonStyle}>Contact</Button>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
+            {/* <Footer /> */}
         </div>
     );
-}
+};
 
-export default AboutUs;
+export default About;

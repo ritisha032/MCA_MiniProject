@@ -33,6 +33,7 @@ import EditProfile from "../Components/Dashboard/Student Dashboard/component/Edi
 import About from "../Components/Outside/About Us/About";
 import NotPageFound from "./NotPageFound";
 
+
 // import StudentDashboard from "../Components/Dashboard/Student Dashboard/StudentDashboard";
 const Routers = () => {
   const [userRole, setUserRole] = useState("");
@@ -51,6 +52,8 @@ const Routers = () => {
         <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
 
         <Route path="/signup" element={<SignupPage />} />
+
+      
         <Route path="/contact" element={<Contact />} />
         <Route path="/about-us" element={<About />} />
         <Route path="/forgot-password" element={<Forgot/>}/>
