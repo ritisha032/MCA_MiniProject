@@ -4,6 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import Footer from "../Outside/Footer/Footer";
 import Navbar from '../Outside/Navbar/Navbar';
+ // Import the OTP component
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -45,13 +46,13 @@ const SignupPage = () => {
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API}/api/user/register`,
+        `${process.env.REACT_APP_API}/api/user/sendotp`, // Call the sendotp endpoint
         formData
       );
 
       if (response.data.success) {
-        toast.success(response.data.message);
-        navigate("/login");
+        // If OTP sent successfully, navigate to OTP page passing form data as props
+        navigate("/otp", { state: { formData } });
       } else {
         toast.error(response.data.message);
       }
@@ -138,41 +139,6 @@ const SignupPage = () => {
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <Footer />
       </div>
-      {/* Add CSS in the component itself */}
-      <style jsx>{`
-        /* CSS for Signup Page */
-        .signup-container {
-          display: flex;
-          flex-direction: column; /* Stack elements vertically */
-          justify-content: center; /* Center the form in the middle */
-          align-items: center; /* Center items within the container */
-          min-height: 80vh; /* Reduced height for the container */
-          padding: 20px; /* Adjust padding as needed */
-        }
-      
-        .form-container {
-          max-width: 500px; /* Restrict form width */
-          width: 100%; /* Make form take up full width within its container */
-          margin-bottom: 20px; /* Add space below the form */
-        }
-      
-        input, select, button {
-          width: 100%; /* Make inputs and button take up the full width */
-          padding: 10px; /* Add padding for better usability */
-          margin-bottom: 10px; /* Adjust spacing between elements */
-        }
-      
-        button {
-          background-color: #007bff; /* Bootstrap primary color */
-          color: white; /* White text */
-          border: none; /* No border */
-        }
-      
-        .error-message {
-          color: red; /* Error message color */
-          margin-bottom: 10px; /* Add space below the error message */
-        }
-      `}</style>
     </div>
   );
 };

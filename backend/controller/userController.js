@@ -7,12 +7,16 @@ import jwt from "jsonwebtoken";
 import Complaint from "../models/complaint.js";
 import Mess from "../models/mess.js";
 import Feedback from "../models/feedback.js";
+import otpGenerator from "otp-generator";
 import Profile from "../models/profile.js";
+import OTP from "../models/OTP.js";
+
 const clientURL = process.env.CLIENT_URL;
 
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password, selectedMess, roomNo } = req.body;
+    const { name, email, password, isAdmin, selectedMess, roomNo, otp } = req.body;
+    console.log(req.body);
 
     // Email format validation
     const emailRegex = /@mnnit\.ac\.in$/;
@@ -23,7 +27,7 @@ const registerUser = async (req, res) => {
       });
     }
 
-    if (!name || !email || !password || !selectedMess || !roomNo) {
+    if (!name || !email || !password || !selectedMess || !otp) {
       return res.status(400).json({
         success: false,
         message: "Please enter all the required fields",
@@ -40,6 +44,27 @@ const registerUser = async (req, res) => {
       });
     }
 
+    // Find the user's OTP
+    const userOTP = await OTP.findOne({ email });
+
+    if (!userOTP) {
+      return res.status(400).json({
+        success: false,
+        message: "OTP not found for this email",
+      });
+    }
+
+    // Verify OTP
+    if (otp !== userOTP.otp) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid OTP",
+      });
+    }
+
+    // Delete OTP after successful verification
+    await OTP.deleteOne({ email });
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
@@ -47,13 +72,14 @@ const registerUser = async (req, res) => {
         message: "User already exists",
       });
     }
+
     const profileDetails = await Profile.create({
-			gender: null,
-			dateOfBirth: null,
-			about: null,
-			contactNumber: null,
+      gender: null,
+      dateOfBirth: null,
+      about: null,
+      contactNumber: null,
       image: `https://api.dicebear.com/5.x/initials/svg?seed=${name}`,
-		});
+    });
 
     const newUserDetails = {
       name,
@@ -61,7 +87,8 @@ const registerUser = async (req, res) => {
       password,
       messId: messDocument.messId,
       roomNo,
-      additionalDetails:profileDetails._id
+      additionalDetails: profileDetails._id,
+      isAdmin: isAdmin
     };
 
     const createdUser = await User.create(newUserDetails);
@@ -82,7 +109,7 @@ const registerUser = async (req, res) => {
         email: createdUser.email,
         messId: createdUser.messId,
         roomNo: createdUser.roomNo,
-        profile:createdUser.additionalDetails
+        profile: createdUser.additionalDetails
       },
     });
   } catch (error) {
@@ -94,7 +121,8 @@ const registerUser = async (req, res) => {
   }
 };
 
-export default registerUser;
+
+
 
 const authenticateUser = async (req, res) => {
   try {
@@ -215,4 +243,62 @@ const addFeedback = async (req, res) => {
     res.status(500).json({ success: false, message: 'Failed to submit feedback' });
   }
 }
+
+export const sendOTP = async (req, res) => {
+  try {
+    //fetch email from request ki body
+    const { email } = req.body;
+    console.log(email);
+
+    //check if user already exist
+    const checkUserPresent = await User.findOne({ email });
+    console.log(checkUserPresent);
+    ///if user already exist , then return a response
+    if (checkUserPresent) {
+      return res.json({
+        success: false,
+        message: "User already registered",
+      }).status(401);
+    }
+
+    //generate otp
+    var otp = otpGenerator.generate(6, {
+      upperCaseAlphabets: false,
+      lowerCaseAlphabets: false,
+      specialChars: false,
+    });
+    console.log("OTP generated: ", otp);
+
+    //check unique otp or not
+    let result = await OTP.findOne({ otp: otp });
+
+    while (result) {
+      otp = otpGenerator(6, {
+        upperCaseAlphabets: false,
+        lowerCaseAlphabets: false,
+        specialChars: false,
+      });
+      result = await OTP.findOne({ otp: otp });
+    }
+
+    const otpPayload = { email, otp };
+
+    //create an entry for OTP
+    const otpBody = await OTP.create(otpPayload);
+    console.log(otpBody);
+
+    //return response successful
+    res.status(200).json({
+      success: true,
+      message: "OTP Sent Successfully",
+      otp,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 export { registerUser, authenticateUser,addComplaint, addFeedback };

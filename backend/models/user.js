@@ -9,7 +9,7 @@ const userSchema = new Schema({
     password: { type: String, required: true },
     isAdmin: { type: Boolean, default: false },
     messId: { type:String, ref: 'mess', required: true }, // Reference to mess model
-    roomNo: { type: String, required: true }, // Room number field
+    roomNo: { type: String }, // Room number field
     additionalDetails: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,

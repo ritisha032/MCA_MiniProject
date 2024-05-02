@@ -32,6 +32,7 @@ import Reset from "../Components/Outside/ResetPassword/Reset";
 import EditProfile from "../Components/Dashboard/Student Dashboard/component/EditProfile";
 import About from "../Components/Outside/About Us/About";
 import NotPageFound from "./NotPageFound";
+import OTP from "../Components/Login_SignUp/OTP";
 
 // import StudentDashboard from "../Components/Dashboard/Student Dashboard/StudentDashboard";
 const Routers = () => {
@@ -55,6 +56,7 @@ const Routers = () => {
         <Route path="/about-us" element={<About />} />
         <Route path="/forgot-password" element={<Forgot/>}/>
         <Route path="/reset-password/:userId/:userToken" element={<Reset/>}/>
+        <Route path="/otp" element={<OTP/>}/>
      
         <Route path="/dashboard" element={<PrivateRoute />}>
           {/* <Route path="student" element={<StudentDashboard/>} /> */}

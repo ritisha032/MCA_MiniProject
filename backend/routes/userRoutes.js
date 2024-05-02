@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerUser, authenticateUser, addComplaint, addFeedback } from "../controller/userController.js";
+import { registerUser, authenticateUser, addComplaint, addFeedback,sendOTP } from "../controller/userController.js";
 import { couponPurchase, couponValidity } from "../controller/couponController.js";
 import { getCouponData, getMealData, getWeekMenu } from "../controller/dataController.js";
 import { protect } from "../middleware/authMiddleware.js";
@@ -11,6 +11,8 @@ const router = Router();
 
 router.post("/register",registerUser);
 router.post("/login",authenticateUser);
+
+router.post("/sendotp", sendOTP)
 
 router.get("/getmenu" , protect ,  getWeekMenu);
 router.get("/getmeal" , protect, getMealData);

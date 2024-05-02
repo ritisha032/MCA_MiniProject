@@ -2,7 +2,7 @@ import User from "../models/user.js";
 import Token from "../models/token.js";
 import crypto from "crypto";
 import mailSender from "../utils/mailSender.js";
-import mongoose from "mongoose";
+import { resetTemplate } from "../utils/email/template/resetPassword.js";
 
 const forgotPassword = async (req, res) => {
     try {
@@ -27,8 +27,8 @@ const forgotPassword = async (req, res) => {
         }
 
         const link = `Link to reset password:`+ `${process.env.CLIENT_URL}/reset-password/${userObject._id}/${token.token}`;
-        await mailSender(userObject.email, "Password reset", link); // Use userObject.email instead of user.email
-
+        const response=await mailSender(userObject.email, "Password reset",link); // Use userObject.email instead of user.email
+        console.log(response);
         res.send("Password reset link sent to your email account");
     } catch (error) {
         console.error(error);

@@ -174,7 +174,8 @@ const resetTemplate = (name, link) => {
                                   <!--[if mso]><style>.v-button {background: transparent !important;}</style><![endif]-->
                                   <div align="center">
                                     <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${link}" style="height:56px; v-text-anchor:middle; width:156px;" arcsize="7%"  stroke="f" fillcolor="#115581"><w:anchorlock/><center style="color:#FFFFFF;font-family:'Cabin',sans-serif;"><![endif]-->
-                                    <a href="${link}" target="_blank" class="v-button" style="box-sizing: border-box;display: inline-block;font-family:'Cabin',sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #115581; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;font-size: 14px;">
+                                    <p>Click the following link to reset your password: <a href="${link}" target="_blank">${link}</a></p>
+
                                       <span style="display:block;padding:20px 32px;line-height:120%;"><span style="line-height: 16.8px;">Reset Password</span></span>
                                     </a>
                                     <!--[if mso]></center></v:roundrect><![endif]-->
