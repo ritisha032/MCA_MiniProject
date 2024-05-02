@@ -36,11 +36,11 @@ cloudinaryConnect();
 
 
 // Route handlers
-app.use("api/user",userRoutes);
-app.use("api/admin" ,adminRoutes);
-app.use("api/mess",messRoutes);
-app.use("api/password", passwordRoutes);
-app.use("api/profile", profileRoutes);
+app.use("/api/user",userRoutes);
+app.use("/api/admin" ,adminRoutes);
+app.use("/api/mess",messRoutes);
+app.use("/api/password", passwordRoutes);
+app.use("/api/profile", profileRoutes);
 
 
 // Error middlewares 
