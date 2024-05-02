@@ -18,9 +18,9 @@ const Landing = () => {
     <div className="background-image">
       <Navbar/>
       <div className="welcome-text">Welcome</div>
-      <div className="image-container">
-        {/* <img src={image} alt="Your Image" className="landing-image" /> */}
-      </div>
+      {/* <div className="image-container">
+        <img src={image} alt="Your Image"  />
+      </div> */}
       {/* <div className="button-container">
         <Link to="/contact"><button className="button">Contact</button></Link>
         <Link to="/about-us"><button className="button">About Us</button></Link>
