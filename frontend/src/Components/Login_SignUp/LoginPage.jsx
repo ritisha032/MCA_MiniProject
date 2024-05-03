@@ -26,7 +26,7 @@ const LoginPage = () => {
         console.log(formData);
         try {
             const res = await axios.post(
-                `${process.env.REACT_APP_API}api/user/login`,
+                `${process.env.REACT_APP_API}/api/user/login`,
                 formData
             );
             console.log("res= ", res.data.token);

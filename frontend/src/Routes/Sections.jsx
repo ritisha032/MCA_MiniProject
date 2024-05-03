@@ -35,6 +35,7 @@ import NotPageFound from "./NotPageFound";
 import OTP from "../Components/Login_SignUp/OTP";
 
 
+
 // import StudentDashboard from "../Components/Dashboard/Student Dashboard/StudentDashboard";
 const Routers = () => {
   const [userRole, setUserRole] = useState("");
@@ -53,6 +54,8 @@ const Routers = () => {
         <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
 
         <Route path="/signup" element={<SignupPage />} />
+        {/* <Route path="/temp" element={<LoginSignUp />} /> */}
+
 
       
         <Route path="/contact" element={<Contact />} />

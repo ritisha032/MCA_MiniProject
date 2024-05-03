@@ -26,6 +26,7 @@ function Navbar() {
                     <Link to="/signup" style={{ marginLeft: '10px' }}>
                         <button>Sign Up</button>
                     </Link>
+                    
                 </div>
             </div>
         </nav>
