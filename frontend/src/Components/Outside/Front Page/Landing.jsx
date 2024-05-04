@@ -27,8 +27,8 @@ const Landing = () => {
         <Link to="/signup"><button className="button">SignUp</button></Link>
         <Link to="/login"><button className="button">Login</button></Link>
       </div> */}
-    </div>
       <Footer/>
+    </div>
     </>
   );
 }

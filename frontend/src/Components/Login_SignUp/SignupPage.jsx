@@ -149,6 +149,7 @@ const SignupPage = () => {
           align-items: center; /* Center items within the container */
           min-height: 80vh; /* Reduced height for the container */
           padding: 20px; /* Adjust padding as needed */
+          animation: fadeIn 0.5s ease-in;
         }
       
         .form-container {
