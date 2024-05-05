@@ -28,7 +28,7 @@ const Footer = () => {
 };
 
 const footerStyle = {
-    backgroundColor: '#EEF7FF', // Dark background
+    backgroundColor: '#CDE8E5', // Dark background
     color: 'black', // White text
     padding: '10px 0', // Padding top and bottom
 };

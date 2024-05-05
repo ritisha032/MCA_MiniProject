@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Footer from '../Outside/Footer/Footer';
 
 const OTP = () => {
   const [otp, setOtp] = useState('');
@@ -37,7 +38,7 @@ const OTP = () => {
 
   // Define inline styles for the card
   const cardStyles = {
-    backgroundColor: 'rgba(255, 255, 255, 0.7)', // White color with 70% opacity
+    backgroundColor: 'rgb(255 255 255 / 50%)', // White color with 70% opacity
     borderRadius: '8px', // Optional: adds rounded corners
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Optional: adds a subtle shadow
     padding: '16px', // Adds padding to the card
@@ -72,6 +73,7 @@ const OTP = () => {
             </div>
           </div>
         </div>
+        <Footer/>
     </div>
   );
 };

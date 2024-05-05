@@ -30,7 +30,7 @@ const Forgot = () => {
   };
   
   return (
-    <div className='wholepage'>
+    <div className='for-wholepage'>
     
       <div className="forgot-password-container">
         <h2>Forgot Password</h2>

@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
+import Table from "react-bootstrap/Table";
 import { useAuth } from "../../../../context/auth";
 import axios from "axios";
 
@@ -26,14 +27,11 @@ function StudentProfile() {
         `${process.env.REACT_APP_API}/api/profile/getUserDetails`
       );
       const userData = response.data.data;
-      console.log("user data= ", userData);
   
-      // Set gender, phone number, and image URL
       setGender(userData.additionalDetails.gender);
       setPhoneNumber(userData.additionalDetails.contactNumber);
       setImageUrl(userData.additionalDetails.image);
   
-      // Format date of birth
       const dob = new Date(userData.additionalDetails.dateOfBirth);
       const formattedDob = `${dob.getDate()}/${dob.getMonth() + 1}/${dob.getFullYear()}`;
       setDateOfBirth(formattedDob);
@@ -41,7 +39,6 @@ function StudentProfile() {
       console.error("Error fetching user details:", error);
     }
   };
-  
 
   useEffect(() => {
     setStudentName(parsedData.user.name);
@@ -54,36 +51,60 @@ function StudentProfile() {
   return (
     <Container>
       <Row className="justify-content-center mt-4">
-        <Col md={6}>
-          <Card>
+        <Col md={8}>
+          <Card className="bg-light"> {/* Add background color class here */}
             <Card.Body>
-              <Card.Title style={{ fontSize: "2rem", textAlign: "center" }}>
-                Hello {studentName}
-              </Card.Title>
-              <Card.Text style={{ fontSize: "1.5rem", textAlign: "center" }}>
-                Hostel Name: {hostelName}
-              </Card.Text>
-              <Card.Text style={{ fontSize: "1.5rem", textAlign: "center" }}>
-                Room Number: {roomNumber}
-              </Card.Text>
-              <Card.Text style={{ fontSize: "1.5rem", textAlign: "center" }}>
-                Gender: {gender}
-              </Card.Text>
-              <Card.Text style={{ fontSize: "1.5rem", textAlign: "center" }}>
-                Phone Number: {phoneNumber}
-              </Card.Text>
-              <Card.Text style={{ fontSize: "1.5rem", textAlign: "center" }}>
-                Date of Birth: {dateOfBirth}
-              </Card.Text>
-              {imageUrl && (
-                <div className="text-center mt-3">
-                  <img
-                    src={imageUrl}
-                    alt="Profile"
-                    style={{ maxWidth: "100%", height: "auto" }}
-                  />
-                </div>
-              )}
+              <Row>
+                <Col md={3} className="text-center">
+                  {imageUrl && (
+                    <img
+                      src={imageUrl}
+                      alt="Profile"
+                      className="rounded-circle"
+                      style={{
+                        width: "150px",
+                        height: "150px",
+                        objectFit: "cover",
+                        border: "4px solid #007bff", // Add a border color
+                      }}
+                    />
+                  )}
+                </Col>
+                <Col md={9}>
+                  <Card.Title style={{ fontSize: "2rem" }}>
+                    Hello {studentName}
+                  </Card.Title>
+                  <Table
+                    bordered
+                    hover
+                    responsive
+                    style={{ backgroundColor: "#f8f9fa" }} 
+                  >
+                    <tbody>
+                      <tr>
+                        <td><strong>Hostel Name:</strong></td>
+                        <td>{hostelName}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Room Number:</strong></td>
+                        <td>{roomNumber}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Gender:</strong></td>
+                        <td>{gender}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Phone Number:</strong></td>
+                        <td>{phoneNumber}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Date of Birth:</strong></td>
+                        <td>{dateOfBirth}</td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                </Col>
+              </Row>
             </Card.Body>
           </Card>
         </Col>
