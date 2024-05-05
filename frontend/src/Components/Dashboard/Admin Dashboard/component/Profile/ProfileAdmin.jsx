@@ -106,7 +106,7 @@ function ProfileAdmin() {
                                     </Table>
                                     {/* Add a button to update profile if any cell is empty */}
                                     {isEmpty && (
-                                        <Button variant="primary" onClick={() => navigate('/profile/edit')}>
+                                        <Button variant="primary" onClick={() => navigate('/dashboard/admin/updateprofile')}>
                                             Update Profile
                                         </Button>
                                     )}
