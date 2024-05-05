@@ -11,12 +11,15 @@ const ComplaintAdmin = () => {
     const fetchComplaints = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_API}/api/admin/getComplaints/${user.messId}`);
-        setComplaints(response.data.complaints);
+        // Filter only unresolved complaints
+        const unresolvedComplaints = response.data.complaints.filter(complaint => complaint.status === 'unresolved');
+        setComplaints(unresolvedComplaints);
       } catch (error) {
         console.error('Error fetching complaints:', error);
         // Handle error (e.g., show error message)
       }
     };
+    
 
     if (user && user.messId) {
       fetchComplaints();

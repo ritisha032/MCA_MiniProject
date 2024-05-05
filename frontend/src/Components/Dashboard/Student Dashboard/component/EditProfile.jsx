@@ -131,7 +131,7 @@ const StudentProfileForm = () => {
   };
 
   return (
-    <div>
+    
       <Row className="justify-content-center mt-4">
         <Col md={6}>
           <Card>
@@ -195,7 +195,7 @@ const StudentProfileForm = () => {
           </Card>
         </Col>
       </Row>
-    </div>
+   
   );
 };
 

@@ -1,108 +1,166 @@
-// src/components/MessManagerProfile.js
+import React from "react";
+import { Card, Form, Button } from "react-bootstrap";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { useAuth } from "../../../../../context/auth";
 
-import React, { useState } from 'react';
-import { Container, Form, Button, Card } from 'react-bootstrap';
+const UpdateProfile = () => {
+    const { auth, setAuth } = useAuth();
+    const navigate = useNavigate();
+  
+    const [gender, setGender] = useState("");
+    const [dateOfBirth, setDateOfBirth] = useState("");
+    const [contactNumber, setContactNumber] = useState("");
+    const [displayPicture, setDisplayPicture] = useState(null);
+    const [imageUrl, setImageUrl] = useState(""); // Added state for image URL
 
-const MessManagerProfile = () => {
-    // State to hold the form inputs and profile information
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        address: ''
-    });
-
-    const [profileInfo, setProfileInfo] = useState(null);
-
-    // Handle form input changes
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
-    };
-
-    // Handle form submission
-    const handleSubmit = (e) => {
+    const fetchUserData = async () => {
+        try {
+          const response = await axios.get(
+            `${process.env.REACT_APP_API}/api/profile/getUserDetails`
+          );
+          console.log("fetch response= ",response.data.data.additionalDetails);
+          const {
+            gender,
+            dateOfBirth,
+            contactNumber,
+            image, // Assuming the key for image URL is 'image'
+          } = response.data.data.additionalDetails;
+          const formattedDateOfBirth = new Date(dateOfBirth)
+            .toISOString()
+            .split("T")[0];
+          setGender(gender);
+          setDateOfBirth(formattedDateOfBirth);
+          setContactNumber(contactNumber);
+          setImageUrl(image); // Set the image URL state variable
+        } catch (error) {
+          console.error("Error fetching user details:", error);
+        }
+      };
+    
+      useEffect(() => {
+        fetchUserData();
+      }, []); // Empty dependency array ensures this effect runs only once after initial render
+    
+      const handleSubmit = async (e) => {
         e.preventDefault();
-        // Update profile information with form data
-        setProfileInfo(formData);
-        // Reset the form fields
-        setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            address: ''
-        });
-    };
+        try {
+          // Validate contact number
+          const contactNumStr = contactNumber.toString();
+          if (contactNumStr.length !== 10) {
+            toast.error("Contact number must be 10 digits long.");
+            return;
+          }
+    
+          const profileData = {
+            gender,
+            dateOfBirth,
+            contactNumber,
+          };
+    
+          // Update profile data
+          const profileResponse = await axios.put(
+            `${process.env.REACT_APP_API}/api/profile/updateProfile`,
+            profileData
+          );
+    
+          toast.success(profileResponse.data.message);
+          console.log("Profile updated successfully:", profileResponse.data);
+    
+          // Refetch user data to update the UI
+          fetchUserData();
+    
+          // Update display picture
+          if (displayPicture) {
+            const formData = new FormData();
+            formData.append("displayPicture", displayPicture);
+    
+            const displayPictureResponse = await axios.put(
+              `${process.env.REACT_APP_API}/api/profile/updateDisplayPicture`,
+              formData,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              }
+            );
+    
+            console.log(displayPictureResponse);
+          }
+        } catch (error) {
+          console.error("Error updating profile:", error);
+        }
+      };
+    
+ 
+      const handleImageChange = (e) => {
+        setDisplayPicture(e.target.files[0]);
+      };
 
     return (
-        <Container>
-            <h1 className="my-4">Mess Manager Profile</h1>
-            {/* Form for mess manager profile */}
-            <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="name">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        placeholder="Enter name"
-                    />
+        <Row className="justify-content-center mt-4">
+        <Col md={6}>
+          <Card>
+            <Card.Body>
+              <Form onSubmit={handleSubmit}>
+                <Form.Group controlId="formImage">
+                  <Form.Label>Profile Picture:</Form.Label>
+                  <Form.Control
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                  />
                 </Form.Group>
-                <Form.Group controlId="email">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        placeholder="Enter email"
-                    />
+                <Form.Group controlId="formGender">
+                  <Form.Label>Gender:</Form.Label>
+                  <Form.Check
+                    type="radio"
+                    label="Male"
+                    name="gender"
+                    value="male"
+                    checked={gender === "male"}
+                    onChange={(e) => setGender(e.target.value)}
+                  />
+                  <Form.Check
+                    type="radio"
+                    label="Female"
+                    name="gender"
+                    value="female"
+                    checked={gender === "female"}
+                    onChange={(e) => setGender(e.target.value)}
+                  />
                 </Form.Group>
-                <Form.Group controlId="phone">
-                    <Form.Label>Phone</Form.Label>
-                    <Form.Control
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        placeholder="Enter phone number"
-                    />
+                <Form.Group controlId="formDateOfBirth">
+                  <Form.Label>Date of Birth:</Form.Label>
+                  <Form.Control
+                    type="date"
+                    value={dateOfBirth}
+                    onChange={(e) => setDateOfBirth(e.target.value)}
+                  />
                 </Form.Group>
-                <Form.Group controlId="address">
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="address"
-                        value={formData.address}
-                        onChange={handleInputChange}
-                        placeholder="Enter address"
-                    />
+                <Form.Group controlId="formContactNumber">
+                  <Form.Label>Contact Number:</Form.Label>
+                  <Form.Control
+                    type="number"
+                    value={contactNumber}
+                    onChange={(e) => setContactNumber(e.target.value)}
+                  />
                 </Form.Group>
                 <Button variant="primary" type="submit">
-                    Submit
+                  Update Profile
                 </Button>
-            </Form>
-
-            {/* Display profile information if available */}
-            {profileInfo && (
-                <Card className="mt-4">
-                    <Card.Body>
-                        <Card.Title>Profile Information</Card.Title>
-                        <Card.Text>
-                            <strong>Name:</strong> {profileInfo.name} <br />
-                            <strong>Email:</strong> {profileInfo.email} <br />
-                            <strong>Phone:</strong> {profileInfo.phone} <br />
-                            <strong>Address:</strong> {profileInfo.address}
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            )}
-        </Container>
+               
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     );
 };
 
-export default MessManagerProfile;
+export default UpdateProfile;

@@ -1,32 +1,94 @@
-// src/components/ProfilePage.js
+import React, { useState, useEffect } from "react";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Card from "react-bootstrap/Card";
+import { useAuth } from "../../../../../context/auth";
+import axios from "axios";
 
-import React from 'react';
-import { Container, Card } from 'react-bootstrap';
 
-const ProfilePage = ({ profile }) => {
-    return (
+const ProfileAdmin = () => {
+    const { auth, setAuth } = useAuth();
+
+    const user = localStorage.getItem("auth");
+    const parsedData = JSON.parse(user);
+  
+    const [studentName, setStudentName] = useState("");
+    const [hostelName, setHostelName] = useState("");
+   
+    const [gender, setGender] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [dateOfBirth, setDateOfBirth] = useState("");
+    const [imageUrl, setImageUrl] = useState("");
+  
+
+    const fetchUserData = async () => {
+        try {
+          const response = await axios.get(
+            `${process.env.REACT_APP_API}/api/profile/getUserDetails`
+          );
+          const userData = response.data.data;
+          console.log("user data= ", userData);
+      
+          // Set gender, phone number, and image URL
+          setGender(userData.additionalDetails.gender);
+          setPhoneNumber(userData.additionalDetails.contactNumber);
+          setImageUrl(userData.additionalDetails.image);
+      
+          // Format date of birth
+          const dob = new Date(userData.additionalDetails.dateOfBirth);
+          const formattedDob = `${dob.getDate()}/${dob.getMonth() + 1}/${dob.getFullYear()}`;
+          setDateOfBirth(formattedDob);
+        } catch (error) {
+          console.error("Error fetching user details:", error);
+        }
+      };
+      
+    
+      useEffect(() => {
+        setStudentName(parsedData.user.name);
+        setHostelName(parsedData.messName);
+      
+        fetchUserData();
+      }, []);
+      return (
         <Container>
-            <h1 className="my-4">Mess Manager Profile</h1>
-
-            {profile ? (
-                // Display profile information in a Bootstrap card
-                <Card>
-                    <Card.Body>
-                        <Card.Title>Profile Information</Card.Title>
-                        <Card.Text>
-                            <strong>Name:</strong> {profile.name} <br />
-                            <strong>Email:</strong> {profile.email} <br />
-                            <strong>Phone:</strong> {profile.phone} <br />
-                            <strong>Address:</strong> {profile.address} <br />
-                            {/* Add more fields as needed */}
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            ) : (
-                <p>No profile data available.</p>
-            )}
+          <Row className="justify-content-center mt-4">
+            <Col md={6}>
+              <Card>
+                <Card.Body>
+                  <Card.Title style={{ fontSize: "2rem", textAlign: "center" }}>
+                    Hello {studentName}
+                  </Card.Title>
+                  <Card.Text style={{ fontSize: "1.5rem", textAlign: "center" }}>
+                    Hostel Name: {hostelName}
+                  </Card.Text>
+                
+                  <Card.Text style={{ fontSize: "1.5rem", textAlign: "center" }}>
+                    Gender: {gender}
+                  </Card.Text>
+                  <Card.Text style={{ fontSize: "1.5rem", textAlign: "center" }}>
+                    Phone Number: {phoneNumber}
+                  </Card.Text>
+                  <Card.Text style={{ fontSize: "1.5rem", textAlign: "center" }}>
+                    Date of Birth: {dateOfBirth}
+                  </Card.Text>
+                  {imageUrl && (
+                    <div className="text-center mt-3">
+                      <img
+                        src={imageUrl}
+                        alt="Profile"
+                        style={{ maxWidth: "100%", height: "auto" }}
+                      />
+                    </div>
+                  )}
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
         </Container>
-    );
-};
+      );
 
-export default ProfilePage;
+                  }
+
+export default ProfileAdmin;
