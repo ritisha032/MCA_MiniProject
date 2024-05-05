@@ -56,7 +56,7 @@ function AdminDashboard() {
                             </div>
                             <div className="p-2">
                                 <NavLink to="" style={({ isActive }) => (isActive ? { color: "" } : {})}>
-                                    <DashboardIcon style={{ color: '#f1c40f' }} />Dashboard
+                                    <DashboardIcon style={{ color: '#f1c40f' }} />Profile
                                 </NavLink>
                             </div>
                             <div className="p-2">

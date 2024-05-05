@@ -27,6 +27,7 @@ const forgotPassword = async (req, res) => {
         }
 
         const link = `Link to reset password:`+ `${process.env.CLIENT_URL}/reset-password/${userObject._id}/${token.token}`;
+        console.log("link= ",link);
         const response=await mailSender(userObject.email, "Password reset",link); // Use userObject.email instead of user.email
         console.log(response);
         res.send("Password reset link sent to your email account");
@@ -45,6 +46,8 @@ const resetPassword = async (req, res) => {
             userId: user._id,
         }).sort({ createdAt: -1 });
 
+        const id=token._id;
+
         if (!token || token.token !== req.params.userToken) {
             return res.status(400).json({success:false,message:"Invalid link or expired"});
         }
@@ -56,7 +59,9 @@ const resetPassword = async (req, res) => {
         await user.save();
 
         // Delete the token
-       // await token.delete();
+        await Token.findByIdAndDelete({
+           _id:id
+        });
 
         res.status(201).json({success:true,message:"Password reset successfully"});
 
