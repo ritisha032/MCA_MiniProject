@@ -1,0 +1,70 @@
+.forgot-password-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    /* background-color: #f9f9f9; */
+    background-color: rgba(249, 249, 249, 0.9);
+    
+    box-shadow: 0 2px 4px rgba(85, 31, 31, 0.1);
+    margin-top: 60px;
+    
+    /* background-image: url(); */
+  }
+  
+  .forgot-password-container h2 {
+    margin-bottom: 20px;
+  }
+  
+  .forgot-password-container form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .forgot-password-container form input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .forgot-password-container form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .forgot-password-container form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .forgot-password-container p {
+    margin-top: 20px;
+  }
+  
+  .forgot-password-container p a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .forgot-password-container p a:hover {
+    text-decoration: underline;
+  }
+
+  .for-wholepage{
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    background-image: url("D:\Webster\Temp\MCA_MiniProject\frontend\src\Components\Login_SignUp\burger.jpg");
+    background-size: cover;
+  background-attachment: fixed;
+  }
+  
