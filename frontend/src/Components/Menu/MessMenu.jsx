@@ -12,7 +12,7 @@ const MessMenu = () => {
     useEffect(() => {
         const fetchMealData = async () => {
             try {
-                const response = await axios.get('http://localhost:5001/api/user/getmeal');
+                const response = await axios.get(`${process.env.REACT_APP_API}/api/user/getmeal');
                 setMealData(response.data);
             } catch (error) {
                 console.error('Error fetching meal data:', error);
@@ -21,7 +21,7 @@ const MessMenu = () => {
 
         const fetchMenuData = async () => {
             try {
-                const response = await axios.get('http://localhost:5001/api/user/getmenu');
+                const response = await axios.get(`${process.env.REACT_APP_API}/api/user/getmenu');
                 setMenuData(response.data);
             } catch (error) {
                 console.error('Error fetching menu data:', error);
