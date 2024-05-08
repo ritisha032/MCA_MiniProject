@@ -14,7 +14,7 @@ import OTP from "../models/OTP.js";
 const clientURL = process.env.CLIENT_URL;
 
 const registerUser = async (req, res) => {
-  try {
+ try {
     const { name, email, password, isAdmin, selectedMess, roomNo, otp } = req.body;
     console.log(req.body);
 
