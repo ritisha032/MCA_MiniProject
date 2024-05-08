@@ -63,7 +63,7 @@
     justify-content: center;
     display: flex;
     align-items: center;
-    background-image: url("D:\Webster\Temp\MCA_MiniProject\frontend\src\Components\Login_SignUp\burger.jpg");
+    background-image: url("//frontend/src/Components/Login_SignUp/burger.jpg");
     background-size: cover;
   background-attachment: fixed;
   }

@@ -21,14 +21,14 @@ const registerUser = async (req, res) => {
     // Email format validation
     const emailRegex = /@mnnit\.ac\.in$/;
     if (!emailRegex.test(email)) {
-      return res.status(400).json({
+      return res.status(200).json({
         success: false,
         message: "Email must be in @mnnit.ac.in format",
       });
     }
 
     if (!name || !email || !password || !selectedMess || !otp) {
-      return res.status(400).json({
+      return res.status(202).json({
         success: false,
         message: "Please enter all the required fields",
       });
@@ -38,17 +38,18 @@ const registerUser = async (req, res) => {
     const messDocument = await Mess.findOne({ messName: selectedMess });
 
     if (!messDocument) {
-      return res.status(400).json({
+      return res.status(203).json({
         success: false,
         message: "Invalid messName",
       });
     }
 
     // Find the user's OTP
-    const userOTP = await OTP.findOne({ email });
+    const userOTP = await OTP.findOne({ email }).sort({ createdAt: -1 });
+    console.log(userOTP);
 
     if (!userOTP) {
-      return res.status(400).json({
+      return res.status(204).json({
         success: false,
         message: "OTP not found for this email",
       });
@@ -56,7 +57,7 @@ const registerUser = async (req, res) => {
 
     // Verify OTP
     if (otp !== userOTP.otp) {
-      return res.status(400).json({
+      return res.status(205).json({
         success: false,
         message: "Invalid OTP",
       });
@@ -66,6 +67,7 @@ const registerUser = async (req, res) => {
     await OTP.deleteOne({ email });
 
     const existingUser = await User.findOne({ email });
+    console.log(existingUser);
     if (existingUser) {
       return res.status(400).json({
         success: false,

@@ -25,6 +25,8 @@ const OTP = () => {
         otp: otp,
       });
 
+      console.log(response.data);
+
       if (response.data.success) {
         toast.success("Signup successful");
         navigate("/login");
